@@ -55,7 +55,9 @@ And so from this we have the likelihood of each $y_i$ as a Gaussian distribution
 	p(\mat{Y}|\mat{X},\mat{W}) &= \prod_{i}^N\mathcal{N}(\mat{W}\mat{x}_i,\sigma^2\mat{I})
 \end{align*}
 \question A conjugate prior is one that is conjugate to the posterior, meaning they are in the same family of distributions. A conjugate prior is useful as it gives a closed-form solution for the posterior. If we didn't choose a conjugate prior then numerical integration may be necessary to calculate the posterior which may mean the solution is potentially intractable. The conjugate prior for a Gaussian posterior is a Gaussian.
-\question todo
+\question Just as encoding the prefrence in a $L_2$ norm is equivalent to having a Gaussian prior, encoding the preference using a $L_1$ norm is equivalent to having a Laplace prior. This is because the Laplace distribution estimates median rather than the mean estimated by the Guassian and median minimises the $L_1$ norm and mean the $L_2$
+
+The shape of the laplace distribution's probability density function, with it's higher peak around zero compared to the probability density function of a Gaussian means that more co-efficients are likely to be equal to zero and this leads to a sparser model than those produced by a Gaussian prior.
 \question todo
 \subsubsection{Non-parametric regression}
 \question todo
