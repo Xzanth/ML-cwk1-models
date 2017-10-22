@@ -54,7 +54,7 @@ And so from this we have the likelihood of each $y_i$ as a Gaussian distribution
 	p(\mat{Y}|\mat{X},\mat{W}) &= \prod_{i}^Np(\mat{y}_i|\mat{x}_i,\mat{W}) \\
 	p(\mat{Y}|\mat{X},\mat{W}) &= \prod_{i}^N\mathcal{N}(\mat{W}\mat{x}_i,\sigma^2\mat{I})
 \end{align*}
-\question todo
+\question A conjugate prior is one that is conjugate to the posterior, meaning they are in the same family of distributions. A conjugate prior is useful as it gives a closed-form solution for the posterior. If we didn't choose a conjugate prior then numerical integration may be necessary to calculate the posterior which may mean the solution is potentially intractable. The conjugate prior for a Gaussian posterior is a Gaussian.
 \question todo
 \question todo
 \subsubsection{Non-parametric regression}
