@@ -11,6 +11,9 @@
 \usepackage{nicefrac}       % compact symbols for 1/2, etc.
 %\usepackage{microtype}      % microtypography
 \usepackage{amsmath}
+\usepackage{bm}
+\usepackage{tikz}
+\usetikzlibrary{bayesnet}
 
 \newcounter{question}
 \newcommand{\question}{\stepcounter{question}\paragraph{Question \thequestion}}
@@ -66,9 +69,33 @@ The shape of the laplace distribution's probability density function, with it's 
 Non-parametric models are more flexible and can represent a wider variety of data and will represent the data better if the assumptions made in the parametric model are incorrect but are less precise and accurate than parametric methods if the right assumptions are made.
 
 Parametric models are often easier interpreted as they are simpler to transcribe and are also often faster to compute due to lacking the complexity and flexibility of the non-parametric models.
+\question As we use a Gaussian process we define this prior probability distribution over the uncountably infinite space of functions. So every point in the input space is associated with a random variable that has been normally distributed. This prior represents the joint distribution of the random variables.
+$$
+	p(f|\mat{X},\bm{\theta}) = \mathcal{N}(0, k(\mat{X},\mat{X}))
+$$
+The marginal 
+[TODO]
 \question [TODO]
-\question [TODO]
-\question [TODO]
+\question
+\begin{align*}
+	p(\mat{Y},\mat{X},f,\bm{\theta}) = p(\mat{Y}|f)p(f|\mat{X},\bm{\theta})p(\mat{X})p(\bm{\theta})
+\end{align*}
+\begin{center}
+\begin{tikzpicture}
+	\node[obs] (Y) {$\mat{Y}$}; %
+	\node[latent, left=of Y] (f) {$f$} ; %
+	\node[latent, left=of f, yshift=0.5cm] (X) {$\mat{X}$} ; %
+	\node[latent, left=of f, yshift=-0.5cm] (theta) {$\bm{\theta}$} ; %
+	\edge {X,theta} {f}; %
+	\edge {f} {Y}; %
+\end{tikzpicture}
+\end{center}
+\begin{itemize}
+	\item Are these the assumptions? [TODO]
+	\item $\mat{X}$ and $\theta$ are independent
+	\item $f$ is conditionally dependent on both $\mat{X}$ and $\theta$
+	\item $\mat{Y}$ is conditionally dependent on $f$ and conditionally independent of $\mat{X}$ and $\theta$
+\end{itemize}
 \question [TODO]
 \subsection{Practical}
 \subsubsection{Linear regression}
