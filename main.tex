@@ -14,6 +14,7 @@
 
 \newcounter{question}
 \newcommand{\question}{\stepcounter{question}\paragraph{Question \thequestion}}
+\newcommand{\mat}[1]{\textbf{\textit{#1}}}
 
 \title{Coursework 1 - Modelling}
 
@@ -29,7 +30,6 @@
 }
 
 \begin{document}
-% \nipsfinalcopy is no longer used
 
 \maketitle
 
@@ -37,16 +37,23 @@
 \subsection{Theory}
 \question \emph{1.} As the instances of $y$ are noisy observations of the underlying process and we do not know anything about this uncertainty we can assume it is the sum of independent and identically distributed errors. The Central Limit Theorem states the distribution of the sum of a large enough number of independent, identically distributed variables will be approximately normally distributed. From this we can say that our model of $y$ has the following form:
 \begin{align*}
-y & = f(x) + \epsilon \\
-\text{where:~}
-\epsilon & \sim \mathcal{N}(0, I)
+	y & = f(x) + \epsilon \\
+	\text{where:~}
+	\epsilon & \sim \mathcal{N}(0, \mat{I})
 \end{align*}
 And so from this we have the likelihood of each $y_i$ as a Gaussian distribution with mean $f(x_i)$.\\
 
 \emph{2.} Choosing a spherical covariance matrix for the likelihood means that we are assuming the different dimensions of $y_i$ to be independent and identically distributed. As they are independent they do not covary with each other and so the covariance matrix is diagonal. As they are identically distributed they all have the same variance. Therefore the covariance matrix is spherical.
-\question todo
+\question
+\begin{align*}
+	p(\mat{Y}|f,\mat{X}) &= p(\mat{y}_N|\mat{y}_{N-1},\ldots,\mat{y}_1,f,\mat{X})p(\mat{y}_{N-1}|\mat{y}_{N-2},\ldots,\mat{y}_1,f,\mat{X})\ldots p(\mat{y}_1|f,\mat{X}) \\
+\end{align*}
 \subsubsection{Linear regression}
-\question todo
+\question
+\begin{align*}
+	p(\mat{Y}|\mat{X},\mat{W}) &= \prod_{i}^Np(\mat{y}_i|\mat{x}_i,\mat{W}) \\
+	p(\mat{Y}|\mat{X},\mat{W}) &= \prod_{i}^N\mathcal{N}(\mat{W}\mat{x}_i,\sigma^2\mat{I})
+\end{align*}
 \question todo
 \question todo
 \question todo
