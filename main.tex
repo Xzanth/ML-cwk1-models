@@ -62,7 +62,19 @@ And so from this we have the likelihood of each $y_i$ as a Gaussian distribution
 \question Just as encoding the prefrence in a $L_2$ norm is equivalent to having a Gaussian prior, encoding the preference using a $L_1$ norm is equivalent to having a Laplace prior. This is because the Laplace distribution estimates median rather than the mean estimated by the Guassian and median minimises the $L_1$ norm and mean the $L_2$
 
 The shape of the laplace distribution's probability density function, with it's higher peak around zero compared to the probability density function of a Gaussian means that more co-efficients are likely to be equal to zero and this leads to a sparser model than those produced by a Gaussian prior.
-\question [TODO]
+\question
+\begin{align*}
+	p(\mat{W}|\mat{X},\mat{Y}) &= \frac{1}{Z}p(\mat{Y}|\mat{X},\mat{W})p(\mat{W}) \\
+	&= \frac{1}{Z}\mathcal{N}(\mat{W}\mat{X},\sigma^2\mat{I})\mathcal{N}(\mat{W}_0,\tau^2\mat{I})
+\end{align*}
+$\frac{1}{Z}$ is a normalising constant to ensure that the posterior is a true probability distribution and so we will ignore the other constants for now as they will be dealt with by $Z$.
+
+By the probability density function of the multivariate normal distribution, we have:
+\begin{align*}
+	p(\mat{W}|\mat{X},\mat{Y}) &\propto \exp\Big(-\frac{1}{2\sigma^2}(\mat{Y}-\mat{X}\mat{W})^T\mat{I}(\mat{Y}-\mat{X}\mat{W})\Big) \\
+	&\quad\times\exp\Big(-\frac{1}{2\tau^2}(\mat{W}-\mat{W}_0)^T\mat{I}(\mat{W}-\mat{W}_0)\Big) \\
+	&\propto \text{[TODO]}
+\end{align*}
 \subsubsection{Non-parametric regression}
 \question Parametric models assume that the distribution the data comes from is based on a finite, fixed set of parameters and models future predictions based off these parameters, they capture everything there is to know about the data. Non-parametric models do not make such assumptions about the model structure and instead infer structure from the data, they have parameters but these are not fixed in advance and there can be an infinite set of parameters.
 
@@ -84,7 +96,7 @@ The marginal
 \begin{tikzpicture}
 	\node[obs] (Y) {$\mat{Y}$}; %
 	\node[latent, left=of Y] (f) {$f$} ; %
-	\node[latent, left=of f, yshift=0.5cm] (X) {$\mat{X}$} ; %
+	\node[obs, left=of f, yshift=0.5cm] (X) {$\mat{X}$} ; %
 	\node[latent, left=of f, yshift=-0.5cm] (theta) {$\bm{\theta}$} ; %
 	\edge {X,theta} {f}; %
 	\edge {f} {Y}; %
