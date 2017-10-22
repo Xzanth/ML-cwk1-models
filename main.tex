@@ -1,0 +1,72 @@
+\documentclass{article}
+
+\usepackage[final]{nips}
+
+\usepackage[utf8]{inputenc} % allow utf-8 input
+\usepackage[T1]{fontenc}    % use 8-bit T1 fonts
+\usepackage{hyperref}       % hyperlinks
+\usepackage{url}            % simple URL typesetting
+\usepackage{booktabs}       % professional-quality tables
+\usepackage{amsfonts}       % blackboard math symbols
+\usepackage{nicefrac}       % compact symbols for 1/2, etc.
+\usepackage{microtype}      % microtypography
+\usepackage{amsmath}
+
+\newcounter{question}
+\newcommand{\question}{\stepcounter{question}\paragraph{Question \thequestion}}
+
+\title{Coursework 1 - Modelling}
+
+\author{
+  Jonas Osborn \\
+  \texttt{jo14944} \\
+  \And
+  Tristan Saunders \\
+  \texttt{ts16802} \\
+  \And
+  Corin Varney \\
+  \texttt{cv14985} \\
+}
+
+\begin{document}
+% \nipsfinalcopy is no longer used
+
+\maketitle
+
+\section{The prior}
+\subsection{Theory}
+\question \emph{1.} As the instances of $y$ are noisy observations of the underlying process and we do not know anything about this uncertainty we can assume it is the sum of independent and identically distributed errors. The Central Limit Theorem states the distribution of the sum of a large enough number of independent, identically distributed variables will be approximately normally distributed. From this we can say that our model of $y$ has the following form:
+\begin{align*}
+y & = f(x) + \epsilon \\
+\text{where:~}
+\epsilon & \sim \mathcal{N}(0, I)
+\end{align*}
+And so from this we have the likelihood of each $y_i$ as a Gaussian distribution with mean $f(x_i)$.\\
+
+\emph{2.} Choosing a spherical covariance matrix for the likelihood means that we are assuming the different dimensions of $y_i$ to be independent and identically distributed. As they are independent they do not covary with each other and so the covariance matrix is diagonal. As they are identically distributed they all have the same variance. Therefore the covariance matrix is spherical.
+\question todo
+\subsubsection{Linear regression}
+\question todo
+\question todo
+\question todo
+\question todo
+\subsubsection{Non-parametric regression}
+\question todo
+\question todo
+\question todo
+\question todo
+\question todo
+\subsection{Practical}
+\subsubsection{Linear regression}
+\question todo
+\subsubsection{Non-parametric regression}
+\question todo
+\question todo
+\section{The posterior}
+\subsection{Theory}
+\subsubsection{Learning}
+\subsubsection{Practical optimisation}
+\subsubsection{Non-parametric}
+\subsection{Practical}
+\subsubsection{Linear representation learning}
+\end{document}
