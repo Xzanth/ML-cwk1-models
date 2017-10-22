@@ -92,11 +92,15 @@ The marginal
 \end{center}
 \begin{itemize}
 	\item Are these the assumptions? [TODO]
-	\item $\mat{X}$ and $\theta$ are independent
-	\item $f$ is conditionally dependent on both $\mat{X}$ and $\theta$
-	\item $\mat{Y}$ is conditionally dependent on $f$ and conditionally independent of $\mat{X}$ and $\theta$
+	\item $\mat{X}$ and $\bm{\theta}$ are independent
+	\item $f$ is conditionally dependent on both $\mat{X}$ and $\bm{\theta}$
+	\item $\mat{Y}$ is conditionally dependent on $f$ and conditionally independent of $\mat{X}$ and $\bm{\theta}$
 \end{itemize}
 \question [TODO]
+
+There are two sources of uncertainty here, that associated with $f$ in the prior and that associated with $\epsilon$ in the likelihood, these are independent and as such are merged by simply adding to form the covariance of the marginal likelihood Gaussian.
+
+Leaving the $\theta$ on the left-hand side of the expression [TODO]
 \subsection{Practical}
 \subsubsection{Linear regression}
 \question [TODO]
