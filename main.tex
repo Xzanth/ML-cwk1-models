@@ -68,16 +68,27 @@ The shape of the laplace distribution's probability density function, with it's 
 	p(\mat{W}|\mat{X},\mat{Y}) &= \frac{1}{Z}p(\mat{Y}|\mat{X},\mat{W})p(\mat{W}) \\
 	&= \frac{1}{Z}\mathcal{N}(\mat{W}\mat{X},\sigma^2\mat{I})\mathcal{N}(\mat{W}_0,\tau^2\mat{I})
 \end{align*}
-$\frac{1}{Z}$ is a normalising constant to ensure that the posterior is a true probability distribution and so we will ignore the other constants for now as they will be dealt with by $Z$.
+$\frac{1}{Z}$ is the normalising constant to ensure that the posterior is a probability density function by making the area under the graph equal to $1$ this constant is called the evidence. We will ignore it for now.
 
 By the probability density function of the multivariate normal distribution, we have:
 \begin{align*}
-	p(\mat{W}|\mat{X},\mat{Y}) &\propto \exp\Big(-\frac{1}{2\sigma^2}(\mat{Y}-\mat{X}\mat{W})^T\mat{I}(\mat{Y}-\mat{X}\mat{W})\Big) \\
-	&\hspace{2em}\times\exp\Big(-\frac{1}{2\tau^2}(\mat{W}-\mat{W}_0)^T\mat{I}(\mat{W}-\mat{W}_0)\Big) \\
-	&\propto \exp\Big(-\frac{1}{2\sigma^2}(\mat{Y}-\mat{X}\mat{W})^T\mat{I}(\mat{Y}-\mat{X}\mat{W})-\frac{1}{2\tau^2}(\mat{W}-\mat{W}_0)^T\mat{I}(\mat{W}-\mat{W}_0)\Big) \\
-	&\propto \exp\Big(-\frac{1}{2\sigma^2}(\mat{Y}^T\mat{Y}-2\mat{W}^T\mat{X}^T\mat{Y}+\mat{W}^T\mat{X}^T\mat{X}\mat{W}) \\
-	&\hspace{4em}-\frac{1}{2\tau^2}(\mat{W}^T\mat{W}-2\mat{W}^T\mat{W}_0+\mat{W}_0^T\mat{W}_0)\Big) \\
-	& \text{[TODO][UNSURE]}
+	p(\mat{W}|\mat{X},\mat{Y}) \propto\ &\frac{1}{\sqrt{(2\pi)^N\sigma^2}}\exp\bigg(-\frac{1}{2\sigma^2}(\mat{Y}-\mat{X}\mat{W})^T(\mat{Y}-\mat{X}\mat{W})\bigg) \\
+	&\cdot \frac{1}{\sqrt{(2\pi)^N\tau^2}}\exp\bigg(-\frac{1}{2\tau^2}(\mat{W}-\mat{W}_0)^T(\mat{W}-\mat{W}_0)\bigg) \\
+	\propto\ &\exp\bigg(-\frac{1}{2\sigma^2}(\mat{Y}-\mat{X}\mat{W})^T(\mat{Y}-\mat{X}\mat{W})-\frac{1}{2\tau^2}(\mat{W}-\mat{W}_0)^T(\mat{W}-\mat{W}_0)\bigg) \\
+	\propto\ &\exp\bigg(-\frac{1}{2\sigma^2}(\mat{Y}^T\mat{Y}-2\mat{Y}^T\mat{X}\mat{W}+\mat{W}^T\mat{X}^T\mat{X}\mat{W}) \\
+	&\hspace{2.5em}-\frac{1}{2\tau^2}(\mat{W}_0^T\mat{W}_0-2\mat{W}^T\mat{W}_0+\mat{W}^T\mat{W})\bigg)
+% 	&\hspace{4em}-\frac{1}{2\tau^2}(\mat{W}^T\mat{W}-2\mat{W}^T\mat{W}_0+\mat{W}_0^T\mat{W}_0)\Big) \\
+% 	& \text{[TODO][UNSURE]}
+\end{align*}
+\begin{align*}
+	p(\mat{W}|\mat{X},\mat{Y}) \propto \exp\bigg(&-\frac{1}{2\sigma^2}\mat{W}^T\mat{X}^T\mat{X}\mat{W}-\frac{1}{2\tau^2}\mat{W}^T\mat{W}	&&\mbox{quadratic term}\\
+	&+\frac{1}{\sigma^2}\mat{W}^T\mat{X}^T\mat{Y}+\frac{1}{\tau^2}\mat{W}^T\mat{W}_0							&&\mbox{mixed term}\\
+	&-\frac{1}{2\sigma^2}\mat{Y}^T\mat{Y}-\frac{1}{2\tau^2}\mat{W}_0^T\mat{W}_0\bigg)							&&\mbox{constant term}\\
+\end{align*}
+\begin{align*}
+	p(\mat{W}|\mat{X},\mat{Y}) \propto \exp\bigg(&-\frac{1}{2}\mat{W}^T\Big(\frac{1}{\sigma^2}\mat{X}^T\mat{Y}+\frac{1}{\tau^2}\mat{I}\Big)\mat{W}	&&\mbox{quadratic term}\\
+	&+\mat{W}^T\Big(\frac{1}{\sigma^2}\mat{X}^T\mat{Y}+\frac{1}{\tau^2}\mat{W}_0\Big)								&&\mbox{mixed term}\\
+	&-\frac{1}{2\sigma^2}\mat{Y}^T\mat{Y}-\frac{1}{2\tau^2}\mat{W}_0^T\mat{W}_0\Big)								&&\mbox{constant term}\\
 \end{align*}
 \subsubsection{Non-parametric regression}
 \question Parametric models assume that the distribution the data comes from is based on a finite, fixed set of parameters and models future predictions based off these parameters, they capture everything there is to know about the data. Non-parametric models do not make such assumptions about the model structure and instead infer structure from the data, they have parameters but these are not fixed in advance and there can be an infinite set of parameters.
