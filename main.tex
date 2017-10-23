@@ -136,11 +136,11 @@ The covariance function $k$ allows us to set constraints from our assumptions ab
 	\item $f$ is conditionally dependent on both $\mat{X}$ and $\bm{\theta}$
 	\item $\mat{Y}$ is conditionally dependent on $f$ and conditionally independent of $\mat{X}$ and $\bm{\theta}$
 \end{itemize}
-\question This marginalization shows the likelihood of the data we have observed over all the functions constrained by the prior. [UNSURE]
+\question [UNSURE] This marginalization shows the likelihood of the data we have observed over the function we are testing which is constrained constrained by the prior.
 
 There are two sources of uncertainty here, that associated with $f$ in the prior and that associated with $\epsilon$ in the likelihood, these are independent and as such are merged by simply adding to form the covariance of the marginal likelihood Gaussian.
 
-Leaving the $\theta$ on the left-hand side of the expression implies that it has remained throughout this integral and thus the result is a function of $\theta$.
+Leaving the $\theta$ on the left-hand side of the expression implies that we still have specific hyperparameters rather than undefined ones. It remains throughout the integral.
 \subsection{Practical}
 \subsubsection{Linear regression}
 \question [TODO]
