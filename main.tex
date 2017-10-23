@@ -72,8 +72,11 @@ $\frac{1}{Z}$ is a normalising constant to ensure that the posterior is a true p
 By the probability density function of the multivariate normal distribution, we have:
 \begin{align*}
 	p(\mat{W}|\mat{X},\mat{Y}) &\propto \exp\Big(-\frac{1}{2\sigma^2}(\mat{Y}-\mat{X}\mat{W})^T\mat{I}(\mat{Y}-\mat{X}\mat{W})\Big) \\
-	&\quad\times\exp\Big(-\frac{1}{2\tau^2}(\mat{W}-\mat{W}_0)^T\mat{I}(\mat{W}-\mat{W}_0)\Big) \\
-	&\propto \text{[TODO]}
+	&\hspace{2em}\times\exp\Big(-\frac{1}{2\tau^2}(\mat{W}-\mat{W}_0)^T\mat{I}(\mat{W}-\mat{W}_0)\Big) \\
+	&\propto \exp\Big(-\frac{1}{2\sigma^2}(\mat{Y}-\mat{X}\mat{W})^T\mat{I}(\mat{Y}-\mat{X}\mat{W})-\frac{1}{2\tau^2}(\mat{W}-\mat{W}_0)^T\mat{I}(\mat{W}-\mat{W}_0)\Big) \\
+	&\propto \exp\Big(-\frac{1}{2\sigma^2}(\mat{Y}^T\mat{Y}-2\mat{W}^T\mat{X}^T\mat{Y}+\mat{W}^T\mat{X}^T\mat{X}\mat{W}) \\
+	&\hspace{4em}-\frac{1}{2\tau^2}(\mat{W}^T\mat{W}-2\mat{W}^T\mat{W}_0+\mat{W}_0^T\mat{W}_0)\Big)
+	& \text{[ASK]}
 \end{align*}
 \subsubsection{Non-parametric regression}
 \question Parametric models assume that the distribution the data comes from is based on a finite, fixed set of parameters and models future predictions based off these parameters, they capture everything there is to know about the data. Non-parametric models do not make such assumptions about the model structure and instead infer structure from the data, they have parameters but these are not fixed in advance and there can be an infinite set of parameters.
@@ -121,9 +124,16 @@ Leaving the $\theta$ on the left-hand side of the expression [TODO]
 \question [TODO]
 \section{The posterior}
 \subsection{Theory}
+\question We make assumptions about the nature of the variables in $\mat{X}$ and encode this in ou [TODO]
+\question We have encoded the assumption that all the dimensions in each variabl of $\mat{X}$ are independent as we have used a spherical Gaussian.
+\question [TODO]
 \subsubsection{Learning}
+\question [TODO]
 \subsubsection{Practical optimisation}
+\question [TODO]
 \subsubsection{Non-parametric}
+\question [TODO]
 \subsection{Practical}
 \subsubsection{Linear representation learning}
+\question [TODO]
 \end{document}
