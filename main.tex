@@ -84,12 +84,11 @@ By the probability density function of the multivariate normal distribution, we 
 Non-parametric models are more flexible and can represent a wider variety of data and will represent the data better if the assumptions made in the parametric model are incorrect but are less precise and accurate than parametric methods if the right assumptions are made.
 
 Parametric models are often easier interpreted as they are simpler to transcribe and are also often faster to compute due to lacking the complexity and flexibility of the non-parametric models.
-\question As we use a Gaussian process we define this prior probability distribution over the uncountably infinite space of functions. So every point in the input space is associated with a random variable that has been normally distributed. This prior represents the joint distribution of the random variables.
+\question As we use a Gaussian process we define this prior over functions and want our prior to put some constraints on the space of functions. The fact that its a Gaussian process means that for an arbitary set of points $x_i, \ldots, x_j$ we assume that $p(f_i), \ldots,f(x_j))$ is jointly Gaussian with mean $0$ and covariance function $k$, from this we have the equation for our prior:
 $$
 	p(f|\mat{X},\bm{\theta}) = \mathcal{N}(0, k(\mat{X},\mat{X}))
 $$
-The marginal 
-[TODO]
+The covariance function $k$ allows us to set constraints from our assumptions about the mapping $f$. For example our assumption about the functions smoothness that if $x_i$ and $x_j$ are similar then we expect $f_i$ and $f_j$ to be similar too, with certain kernel functions for $f$ we can only sample functions that have sufficient smoothness by ensuring that constraint.
 \question [TODO]
 \question
 \begin{align*}
