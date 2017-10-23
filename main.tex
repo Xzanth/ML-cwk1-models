@@ -74,27 +74,32 @@ By the probability density function of the multivariate normal distribution, we 
 \begin{align*}
 	p(\mat{W}|\mat{X},\mat{Y}) \propto\ &\frac{1}{\sqrt{(2\pi)^N\sigma^2}}\exp\bigg(-\frac{1}{2\sigma^2}(\mat{Y}-\mat{X}\mat{W})^T(\mat{Y}-\mat{X}\mat{W})\bigg) \\
 	&\cdot \frac{1}{\sqrt{(2\pi)^N\tau^2}}\exp\bigg(-\frac{1}{2\tau^2}(\mat{W}-\mat{W}_0)^T(\mat{W}-\mat{W}_0)\bigg) \\
-	\propto\ &\exp\bigg(-\frac{1}{2\sigma^2}(\mat{Y}-\mat{X}\mat{W})^T(\mat{Y}-\mat{X}\mat{W})-\frac{1}{2\tau^2}(\mat{W}-\mat{W}_0)^T(\mat{W}-\mat{W}_0)\bigg) \\
+\end{align*}
+We ignore the normalising constants as we re-normalise with $Z$ and then combine and multiply out the exponents.
+\begin{align*}
+	p(\mat{W}|\mat{X},\mat{Y}) \propto\ &\exp\bigg(-\frac{1}{2\sigma^2}(\mat{Y}-\mat{X}\mat{W})^T(\mat{Y}-\mat{X}\mat{W})-\frac{1}{2\tau^2}(\mat{W}-\mat{W}_0)^T(\mat{W}-\mat{W}_0)\bigg) \\
 	\propto\ &\exp\bigg(-\frac{1}{2\sigma^2}(\mat{Y}^T\mat{Y}-2\mat{Y}^T\mat{X}\mat{W}+\mat{W}^T\mat{X}^T\mat{X}\mat{W}) \\
 	&\hspace{2.5em}-\frac{1}{2\tau^2}(\mat{W}_0^T\mat{W}_0-2\mat{W}^T\mat{W}_0+\mat{W}^T\mat{W})\bigg)
-% 	&\hspace{4em}-\frac{1}{2\tau^2}(\mat{W}^T\mat{W}-2\mat{W}^T\mat{W}_0+\mat{W}_0^T\mat{W}_0)\Big) \\
-% 	& \text{[TODO][UNSURE]}
 \end{align*}
+We know the posterior will be Gaussian as both the likelihood and prior are so can assume it will take the form: $\exp\big((\mat{W}-\mu)^T\mathbf{\Sigma}^{-1}(\mat{W}-\mu)\big)$. If we multiply the exponent out we get a quadratic so we try and make the posterior we have look like this quadratic.
 \begin{align*}
 	p(\mat{W}|\mat{X},\mat{Y}) \propto \exp\bigg(&-\frac{1}{2\sigma^2}\mat{W}^T\mat{X}^T\mat{X}\mat{W}-\frac{1}{2\tau^2}\mat{W}^T\mat{W}	&&\mbox{quadratic term}\\
 	&+\frac{1}{\sigma^2}\mat{W}^T\mat{X}^T\mat{Y}+\frac{1}{\tau^2}\mat{W}^T\mat{W}_0							&&\mbox{mixed term}\\
 	&-\frac{1}{2\sigma^2}\mat{Y}^T\mat{Y}-\frac{1}{2\tau^2}\mat{W}_0^T\mat{W}_0\bigg)							&&\mbox{constant term}\\
 \end{align*}
+By re-arranging we can find both $\mathbf{\Sigma}^{-1}$ and $\mathbf{\Sigma}^{-1}\mu$ in the quadratic and mixed terms respectively.
 \begin{align*}
 	p(\mat{W}|\mat{X},\mat{Y}) \propto \exp\bigg(&-\frac{1}{2}\mat{W}^T\overbrace{\Big(\frac{1}{\sigma^2}\mat{X}^T\mat{Y}+\frac{1}{\tau^2}\mat{I}\Big)}^{\mathbf{\Sigma}^{-1}}\mat{W}	&&\mbox{quadratic term}\\
 	&+\mat{W}^T\underbrace{\Big(\frac{1}{\sigma^2}\mat{X}^T\mat{Y}+\frac{1}{\tau^2}\mat{W}_0\Big)}_{\mathbf{\Sigma}^{-1}\mu}						&&\mbox{mixed term}\\
 	&-\frac{1}{2\sigma^2}\mat{Y}^T\mat{Y}-\frac{1}{2\tau^2}\mat{W}_0^T\mat{W}_0\Big)								&&\mbox{constant term}\\
 \end{align*}
+From these we can easily find $\mathbf{\Sigma}$ and $\mu$.
 \begin{align*}
-	\mathbf{\Sigma} = &\Big(\frac{1}{\sigma^2}\mat{X}^T\mat{Y}+\frac{1}{\tau^2}\mat{I}\Big)^{-1} \\
+	\mathbf{\Sigma} = &\bigg(\frac{1}{\sigma^2}\mat{X}^T\mat{Y}+\frac{1}{\tau^2}\mat{I}\bigg)^{-1} \\
 	\mathbf{\Sigma}^{-1}\mu = &\frac{1}{\sigma^2}\mat{X}^T\mat{Y} + \frac{1}{\tau^2}\mat{W}_0 \\
-	\mu = &\mathbf{\Sigma}\Big(\frac{1}{\sigma^2}\mat{X}^T\mat{Y} + \frac{1}{\tau^2}\mat{W}_0\Big) \\
+	\mu = &\mathbf{\Sigma}\bigg(\frac{1}{\sigma^2}\mat{X}^T\mat{Y} + \frac{1}{\tau^2}\mat{W}_0\bigg) \\
 \end{align*}
+Thus we have our posterior as a Guassian with our values for $\mathbf{\Sigma}$ and $\mu$:
 \begin{align*}
 	p(\mat{W}|\mat{X},\mat{Y}) \propto\ &\exp\bigg(-\frac{1}{2}(\mat{W}-\mu)^T\Sigma^{-1}(\mat{W}-\mu)\bigg)\\
 	\propto\ &\mathcal{N}\bigg[\Big(\frac{1}{\sigma^2}\mat{X}^T\mat{Y}+\frac{1}{\tau^2}\mat{I}\Big)^{-1}\Big(\frac{1}{\sigma^2}\mat{X}^T\mat{Y} + \frac{1}{\tau^2}\mat{W}_0\Big),\Big(\frac{1}{\sigma^2}\mat{X}^T\mat{Y}+\frac{1}{\tau^2}\mat{I}\Big)^{-1}\bigg]
