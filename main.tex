@@ -86,9 +86,18 @@ By the probability density function of the multivariate normal distribution, we 
 	&-\frac{1}{2\sigma^2}\mat{Y}^T\mat{Y}-\frac{1}{2\tau^2}\mat{W}_0^T\mat{W}_0\bigg)							&&\mbox{constant term}\\
 \end{align*}
 \begin{align*}
-	p(\mat{W}|\mat{X},\mat{Y}) \propto \exp\bigg(&-\frac{1}{2}\mat{W}^T\Big(\frac{1}{\sigma^2}\mat{X}^T\mat{Y}+\frac{1}{\tau^2}\mat{I}\Big)\mat{W}	&&\mbox{quadratic term}\\
-	&+\mat{W}^T\Big(\frac{1}{\sigma^2}\mat{X}^T\mat{Y}+\frac{1}{\tau^2}\mat{W}_0\Big)								&&\mbox{mixed term}\\
+	p(\mat{W}|\mat{X},\mat{Y}) \propto \exp\bigg(&-\frac{1}{2}\mat{W}^T\overbrace{\Big(\frac{1}{\sigma^2}\mat{X}^T\mat{Y}+\frac{1}{\tau^2}\mat{I}\Big)}^{\mathbf{\Sigma}^{-1}}\mat{W}	&&\mbox{quadratic term}\\
+	&+\mat{W}^T\underbrace{\Big(\frac{1}{\sigma^2}\mat{X}^T\mat{Y}+\frac{1}{\tau^2}\mat{W}_0\Big)}_{\mathbf{\Sigma}^{-1}\mu}						&&\mbox{mixed term}\\
 	&-\frac{1}{2\sigma^2}\mat{Y}^T\mat{Y}-\frac{1}{2\tau^2}\mat{W}_0^T\mat{W}_0\Big)								&&\mbox{constant term}\\
+\end{align*}
+\begin{align*}
+	\mathbf{\Sigma} = &\Big(\frac{1}{\sigma^2}\mat{X}^T\mat{Y}+\frac{1}{\tau^2}\mat{I}\Big)^{-1} \\
+	\mathbf{\Sigma}^{-1}\mu = &\frac{1}{\sigma^2}\mat{X}^T\mat{Y} + \frac{1}{\tau^2}\mat{W}_0 \\
+	\mu = &\mathbf{\Sigma}\Big(\frac{1}{\sigma^2}\mat{X}^T\mat{Y} + \frac{1}{\tau^2}\mat{W}_0\Big) \\
+\end{align*}
+\begin{align*}
+	p(\mat{W}|\mat{X},\mat{Y}) \propto\ &\exp\bigg(-\frac{1}{2}(\mat{W}-\mu)^T\Sigma^{-1}(\mat{W}-\mu)\bigg)\\
+	\propto\ &\mathcal{N}\bigg[\Big(\frac{1}{\sigma^2}\mat{X}^T\mat{Y}+\frac{1}{\tau^2}\mat{I}\Big)^{-1}\Big(\frac{1}{\sigma^2}\mat{X}^T\mat{Y} + \frac{1}{\tau^2}\mat{W}_0\Big),\Big(\frac{1}{\sigma^2}\mat{X}^T\mat{Y}+\frac{1}{\tau^2}\mat{I}\Big)^{-1}\bigg]
 \end{align*}
 \subsubsection{Non-parametric regression}
 \question Parametric models assume that the distribution the data comes from is based on a finite, fixed set of parameters and models future predictions based off these parameters, they capture everything there is to know about the data. Non-parametric models do not make such assumptions about the model structure and instead infer structure from the data, they have parameters but these are not fixed in advance and there can be an infinite set of parameters.
