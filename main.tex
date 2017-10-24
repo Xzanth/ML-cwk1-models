@@ -164,14 +164,26 @@ then the objective function is derived as follows using log rules:
 \begin{align*}
 	\mathcal{L}(\mat{W}) &= -\log\bigg(\prod_{i=1}^N\mathcal{N}(y_i|0,\mat{W}\mat{W}^T + \sigma^2\mat{I})\bigg) \\
 	&= -\sum_{i=1}^N\log\big(\mathcal{N}(y_i|0,\mat{W}\mat{W}^T + \sigma^2\mat{I})\big) \\
-	&= -\sum_{i=1}^N\log\bigg(\frac{1}{\sqrt{2\pi\lvert\Sigma\rvert}}\bigg)+\log\bigg(\exp\Big(\frac{1}{2}y_i^T\Sigma^{-1} y_i\Big)\bigg) \\
-	&= -\sum_{i=1}^N\log\frac{1}{\sqrt{2\pi\lvert\mat{W}\mat{W}^T+\sigma^2\mat{I}\rvert}}+\log\bigg(\exp\Big(\frac{1}{2}y_i^T(\mat{W}\mat{W}^T+\sigma^2\mat{I})^{-1} y_i\Big)\bigg) \\
-	&= -\log\big(2\pi\lvert\mat{W}\mat{W}^T+\sigma^2\mat{I}\vert\big)^{-\frac{N}{2}} - \frac{1}{2}\sum_{i=1}^Ny_i^T(\mat{W}\mat{W}^T+\sigma^2\mat{I})^{-1} y_i \\
-	&= -\frac{N}{2}\bigg(\log2\pi + \log(\lvert\mat{W}\mat{W}^T+\sigma^2\mat{I}\vert)\bigg) - \frac{1}{2}\sum_{i=1}^Ny_i^T(\mat{W}\mat{W}^T+\sigma^2\mat{I})^{-1} y_i \\
+	&= -\sum_{i=1}^N\log\bigg(\frac{1}{\sqrt{2\pi\lvert\Sigma\rvert}}\bigg)+\log\bigg(\exp\Big(-\frac{1}{2}y_i^T\Sigma^{-1} y_i\Big)\bigg) \\
+	&= -\sum_{i=1}^N\log\frac{1}{(2\pi)^{\frac{D}{2}}\lvert\mat{W}\mat{W}^T+\sigma^2\mat{I}\rvert^{\frac{1}{2}}}+\log\bigg(\exp\Big(-\frac{1}{2}y_i^T(\mat{W}\mat{W}^T+\sigma^2\mat{I})^{-1} y_i\Big)\bigg) \\
+	&= -\log\big((2\pi)^D\lvert\mat{W}\mat{W}^T+\sigma^2\mat{I}\vert\big)^{-\frac{N}{2}} - \sum_{i=1}^N-\frac{1}{2}y_i^T(\mat{W}\mat{W}^T+\sigma^2\mat{I})^{-1} y_i \\
+	&= \frac{N}{2}\bigg(D\log2\pi + \log(\lvert\mat{W}\mat{W}^T+\sigma^2\mat{I}\vert)\bigg) + \frac{1}{2}\sum_{i=1}^Ny_i^T(\mat{W}\mat{W}^T+\sigma^2\mat{I})^{-1} y_i \\
 \end{align*}
 From the fact that $\Tr(\mat{A}\mat{B}) = \Tr(\mat{B}\mat{A})$ and $\Tr(\mat{C} = \mat{c})$ for the dimensions in our sum we can evaluate it as follows:
 \begin{align*}
-	\mathcal{L}(\mat{W}) &= -\frac{N}{2}\bigg(\log2\pi + \log(\lvert\mat{W}\mat{W}^T+\sigma^2\mat{I}\vert) - \Tr\big((\mat{W}\mat{W}^T+\sigma^2\mat{I})^{-1}\mat{Y}\mat{Y}^T\big)\bigg)
+	\mathcal{L}(\mat{W}) &= \frac{N}{2}\bigg(D\log2\pi + \log(\lvert\mat{W}\mat{W}^T+\sigma^2\mat{I}\vert) + \Tr\big((\mat{W}\mat{W}^T+\sigma^2\mat{I})^{-1}\mat{Y}\mat{Y}^T\big)\bigg)
+\end{align*}
+\emph{2.} To find the gradient of $\mathcal{L}$ we will look at each term in turn:
+\begin{align*}
+	\mathcal{L}(\mat{W}) &= \frac{N}{2}\bigg(\overbrace{\Tr\big((\mat{W}\mat{W}^T+\sigma^2\mat{I})^{-1}\mat{Y}\mat{Y}^T\big)}^{A} + \overbrace{\log(\lvert\mat{W}\mat{W}^T+\sigma^2\mat{I}\vert)}^{B} + \overbrace{D\log2\pi}^{C}\bigg)
+\end{align*}
+$C$ is a constant term so we shall discard that and find the differential of $B$. We have that $\partial(\log(\det(\mat{X}))) = \Tr(\mat{X}^{-1}\partial\mat{X})$ and that $\sigma^2\mat{I}$ is constant with respect to $\mat{W}$ and so evaluate $B$ to:
+\begin{align*}
+	\frac{\partial B}{\partial\mat{W}} &= \Tr\Big((\mat{W}\mat{W}^T+\sigma^2\mat{I})^{-1}\partial(\mat{W}\mat{W}^T)\Big)
+\end{align*}
+We also have the rules that $\partial(\mat{X}\mat{Y}) = (\partial\mat{X})\mat{Y} + \mat{X}(\partial\mat{Y})$ and that $\frac{\partial\mat{X}}{\partial\mat{X}_{ij}} = \mat{J}^{ij}$ where $\mat{J}$ is the single-entry matrix, having $1$ at $(i, j)$ and $0$ elsewhere and so can reduce $B$ to:
+\begin{align*}
+	\frac{\partial B}{\partial\mat{W}_{ij}} &= \Tr\Big((\mat{W}\mat{W}^T+\sigma^2\mat{I})^{-1}(\mat{J}^{ij}\mat{W}^T + \mat{W}\mat{J}^{ij}^T)\Big)
 \end{align*}
 \subsubsection{Non-parametric}
 \question [TODO]
