@@ -87,7 +87,7 @@ We know the posterior will be Gaussian as both the likelihood and prior are so c
 	&+\frac{1}{\sigma^2}\mat{W}^T\mat{X}^T\mat{Y}+\frac{1}{\tau^2}\mat{W}^T\mat{W}_0							&&\mbox{mixed term}\\
 	&-\frac{1}{2\sigma^2}\mat{Y}^T\mat{Y}-\frac{1}{2\tau^2}\mat{W}_0^T\mat{W}_0\bigg)							&&\mbox{constant term}\\
 \end{align*}
-By re-arranging we can find both $\mathbf{\Sigma}^{-1}$ and $\mathbf{\Sigma}^{-1}\mu$ in the quadratic and mixed terms respectively.
+By re-arranging and completing the square we can find both $\mathbf{\Sigma}^{-1}$ and $\mathbf{\Sigma}^{-1}\mu$ in the quadratic and mixed terms respectively.
 \begin{align*}
 	p(\mat{W}|\mat{X},\mat{Y}) \propto \exp\bigg(&-\frac{1}{2}\mat{W}^T\overbrace{\Big(\frac{1}{\sigma^2}\mat{X}^T\mat{Y}+\frac{1}{\tau^2}\mat{I}\Big)}^{\mathbf{\Sigma}^{-1}}\mat{W}	&&\mbox{quadratic term}\\
 	&+\mat{W}^T\underbrace{\Big(\frac{1}{\sigma^2}\mat{X}^T\mat{Y}+\frac{1}{\tau^2}\mat{W}_0\Big)}_{\mathbf{\Sigma}^{-1}\mu}						&&\mbox{mixed term}\\
@@ -149,8 +149,8 @@ Leaving the $\theta$ on the left-hand side of the expression implies that we sti
 \question [TODO]
 \section{The posterior}
 \subsection{Theory}
-\question We make assumptions about the nature of the variables in $\mat{X}$ and encode this in ou [TODO]
-\question We have encoded the assumption that all the dimensions in each variabl of $\mat{X}$ are independent as we have used a spherical Gaussian.
+\question Specifiying a prior assumption over \mat{X} allows us to encode our preference about the nature of the properties that \mat{X} should have. This assumption also constrains the variable \mat{W} as \mat{W} and \mat{X} have a simple relationship.
+\question We have encoded the assumption that all the dimensions in each variable of $\mat{X}$ are independent and identically distributed as we have used a Gaussian with an identity matrix as its covariance matrix.
 \question [TODO]
 \subsubsection{Learning}
 \question [TODO]
