@@ -177,13 +177,28 @@ From the fact that $\Tr(\mat{A}\mat{B}) = \Tr(\mat{B}\mat{A})$ and $\Tr(\mat{C} 
 \begin{align*}
 	\mathcal{L}(\mat{W}) &= \frac{N}{2}\bigg(\overbrace{\Tr\big((\mat{W}\mat{W}^T+\sigma^2\mat{I})^{-1}\mat{Y}\mat{Y}^T\big)}^{A} + \overbrace{\log(\lvert\mat{W}\mat{W}^T+\sigma^2\mat{I}\vert)}^{B} + \overbrace{D\log2\pi}^{C}\bigg)
 \end{align*}
-$C$ is a constant term so we shall discard that and find the differential of $B$. We have that $\partial(\log(\det(\mat{X}))) = \Tr(\mat{X}^{-1}\partial\mat{X})$ and that $\sigma^2\mat{I}$ is constant with respect to $\mat{W}$ and so evaluate $B$ to:
+$C$ is a constant term so we shall discard that. To find the derivative of $B$ we use the rules that $\partial(\log(\det(\mat{X}))) = \Tr(\mat{X}^{-1}\partial\mat{X})$ and that $\sigma^2\mat{I}$ is constant with respect to $\mat{W}$ and so evaluate $B$ to:
 \begin{align*}
 	\frac{\partial B}{\partial\mat{W}} &= \Tr\Big((\mat{W}\mat{W}^T+\sigma^2\mat{I})^{-1}\partial(\mat{W}\mat{W}^T)\Big)
 \end{align*}
 We also have the rules that $\partial(\mat{X}\mat{Y}) = (\partial\mat{X})\mat{Y} + \mat{X}(\partial\mat{Y})$ and that $\frac{\partial\mat{X}}{\partial\mat{X}_{ij}} = \mat{J}^{ij}$ where $\mat{J}$ is the single-entry matrix, having $1$ at $(i, j)$ and $0$ elsewhere and so can reduce $B$ to:
 \begin{align*}
 	\frac{\partial B}{\partial\mat{W}_{ij}} &= \Tr\Big((\mat{W}\mat{W}^T+\sigma^2\mat{I})^{-1}(\mat{J}^{ij}\mat{W}^T + \mat{W}\mat{J}^{ij}^T)\Big)
+\end{align*}
+Using the earlier rules along with the rule that $\partial(\Tr(\mat{X}))=\Tr(\partial\mat{X})$ we can find the derivative of $A$:
+\begin{align*}
+	\frac{\partial A}{\partial\mat{W}} &= \Tr\bigg(\partial\Big((\mat{W}\mat{W}^T+\sigma^2\mat{I})^{-1}\mat{Y}\mat{Y}^T\Big)\bigg) \\
+	&= \Tr\Bigg(\partial\Big((\mat{W}\mat{W}^T+\sigma^2\mat{I})^{-1}\Big)\mat{Y}\mat{Y}^T + (\mat{W}\mat{W}^T+\sigma^2\mat{I})^{-1}\Big(\partial(\mat{Y}\mat{Y}^T)\Big)\bigg)
+\end{align*}
+As $\partial(\mat{Y}\mat{Y}^T) = 0$ and $\partial(\mat{X}^{-1}) = -\mat{X}^{-1}(\partial\mat{X})\mat{X}^{-1}$ we can reduce $A$ to:
+\begin{align*}
+	\frac{\partial A}{\partial\mat{W}} &= \Tr\Bigg(\partial\Big((\mat{W}\mat{W}^T+\sigma^2\mat{I})^{-1}\Big)\mat{Y}\mat{Y}^T\Bigg) \\
+	\frac{\partial B}{\partial\mat{W}_{ij}} &= \Tr\Bigg(\Big(-(\mat{W}\mat{W}^T+\sigma^2\mat{I})^{-1}(\mat{J}^{ij}\mat{W}^T + \mat{W}\mat{J}^{ij}^T)(\mat{W}\mat{W}^T+\sigma^2\mat{I})\Big)\mat{Y}\mat{Y}^T\Bigg)
+\end{align*}
+And so by combining our terms $A$ and $B$ we have the gradient for our log likelihood $\mathcal{L}$:
+\begin{align*}
+	\frac{\partial\mathcal{L}}{\partial\mat{W}_{ij}} =\ &\frac{N}{2}\Tr\Bigg(\Big(-(\mat{W}\mat{W}^T+\sigma^2\mat{I})^{-1}(\mat{J}^{ij}\mat{W}^T + \mat{W}\mat{J}^{ij}^T)(\mat{W}\mat{W}^T+\sigma^2\mat{I})\Big)\mat{Y}\mat{Y}^T\Bigg) \\
+	&+ \frac{N}{2}\Tr\Big((\mat{W}\mat{W}^T+\sigma^2\mat{I})^{-1}(\mat{J}^{ij}\mat{W}^T + \mat{W}\mat{J}^{ij}^T)\Big)
 \end{align*}
 \subsubsection{Non-parametric}
 \question [TODO]
