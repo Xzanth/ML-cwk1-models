@@ -18,6 +18,7 @@
 \newcounter{question}
 \newcommand{\question}{\stepcounter{question}\paragraph{Question \thequestion}}
 \newcommand{\mat}[1]{\textbf{\textit{#1}}}
+\DeclareMathOperator{\Tr}{Tr}
 
 \title{Coursework 1 - Modelling}
 
@@ -155,7 +156,23 @@ Leaving the $\theta$ on the left-hand side of the expression implies that we sti
 \subsubsection{Learning}
 \question [TODO]
 \subsubsection{Practical optimisation}
-\question [TODO]
+\question \emph{1.} We have from Question 17 that:
+\begin{align*}
+	p(\mat{Y}|\mat{W}) = \prod_{i=1}^N\mathcal{N}(y_i|0,\mat{W}\mat{W}^T + \sigma^2\mat{I})
+\end{align*}
+then the objective function is derived as follows using log rules:
+\begin{align*}
+	\mathcal{L}(\mat{W}) &= -\log\bigg(\prod_{i=1}^N\mathcal{N}(y_i|0,\mat{W}\mat{W}^T + \sigma^2\mat{I})\bigg) \\
+	&= -\sum_{i=1}^N\log\big(\mathcal{N}(y_i|0,\mat{W}\mat{W}^T + \sigma^2\mat{I})\big) \\
+	&= -\sum_{i=1}^N\log\bigg(\frac{1}{\sqrt{2\pi\lvert\Sigma\rvert}}\bigg)+\log\bigg(\exp\Big(\frac{1}{2}y_i^T\Sigma^{-1} y_i\Big)\bigg) \\
+	&= -\sum_{i=1}^N\log\frac{1}{\sqrt{2\pi\lvert\mat{W}\mat{W}^T+\sigma^2\mat{I}\rvert}}+\log\bigg(\exp\Big(\frac{1}{2}y_i^T(\mat{W}\mat{W}^T+\sigma^2\mat{I})^{-1} y_i\Big)\bigg) \\
+	&= -\log\big(2\pi\lvert\mat{W}\mat{W}^T+\sigma^2\mat{I}\vert\big)^{-\frac{N}{2}} - \frac{1}{2}\sum_{i=1}^Ny_i^T(\mat{W}\mat{W}^T+\sigma^2\mat{I})^{-1} y_i \\
+	&= -\frac{N}{2}\bigg(\log2\pi + \log(\lvert\mat{W}\mat{W}^T+\sigma^2\mat{I}\vert)\bigg) - \frac{1}{2}\sum_{i=1}^Ny_i^T(\mat{W}\mat{W}^T+\sigma^2\mat{I})^{-1} y_i \\
+\end{align*}
+From the fact that $\Tr(\mat{A}\mat{B}) = \Tr(\mat{B}\mat{A})$ and $\Tr(\mat{C} = \mat{c})$ for the dimensions in our sum we can evaluate it as follows:
+\begin{align*}
+	\mathcal{L}(\mat{W}) &= -\frac{N}{2}\bigg(\log2\pi + \log(\lvert\mat{W}\mat{W}^T+\sigma^2\mat{I}\vert) - \Tr\big((\mat{W}\mat{W}^T+\sigma^2\mat{I})^{-1}\mat{Y}\mat{Y}^T\big)\bigg)
+\end{align*}
 \subsubsection{Non-parametric}
 \question [TODO]
 \subsection{Practical}
