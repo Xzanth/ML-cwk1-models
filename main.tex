@@ -13,12 +13,16 @@
 \usepackage{amsmath}
 \usepackage{bm}
 \usepackage{tikz}
+\usepackage{graphicx}
+\usepackage{subcaption}
 \usetikzlibrary{bayesnet}
+\graphicspath{ {images/} }
 
 \newcounter{question}
 \newcommand{\question}{\stepcounter{question}\paragraph{Question \thequestion}}
 \newcommand{\mat}[1]{\textbf{\textit{#1}}}
 \DeclareMathOperator{\Tr}{Tr}
+\DeclareMathOperator{\argmin}{arg\,min}
 
 \title{Coursework 1 - Modelling}
 
@@ -204,5 +208,34 @@ And so by combining our terms $A$ and $B$ we have the gradient for our log likel
 \question [TODO]
 \subsection{Practical}
 \subsubsection{Linear representation learning}
-\question [TODO]
+\question We minimised the objective function to get our maximum likelihood estimate for $\mat{W}$
+\begin{align*}
+	\mat{W}^\prime = \argmin_\mat{W} \mathcal{L}(\mat{W})
+\end{align*}
+To find the representation for $\mat{X}^\prime$ we must know the reverse of the linear mapping.
+\begin{align*}
+	\mat{Y} &= \mat{X}^\prime\mat{W}^\prime^T \\
+	\mat{X}^\prime &= \mat{Y}\mat{W}^\prime(\mat{W}^\prime^T\mat{W}^\prime)^{-1}
+\end{align*}
+And then use minimization of our objective function using the non-linear conjugate gradient method to find $\mat{X}^\prime$.
+\begin{figure}[h!]
+	\centering
+	\begin{subfigure}[t]{0.4\linewidth}
+		\includegraphics[width=\linewidth]{oldX}
+		\caption{Original $\mat{X}^\prime$}
+		\label{fig:oldX}
+	\end{subfigure}
+	\begin{subfigure}[t]{0.4\linewidth}
+		\includegraphics[width=\linewidth]{newX}
+		\caption{Learned $\mat{X}^\prime$}
+		\label{fig:newX}
+	\end{subfigure}
+	\caption{Representation Learning of $\mat{X}^\prime$}
+\end{figure} \\
+Our learned representation of $\mat{X}^\prime$ is very close to the correct shape only rotated slightly, this is because the marginal likelihood we are maximising is invariant to any matrix transformation whose inverse is its own transposition i.e. any matrix for which $\mat{R}\mat{R}^T = \mat{I}$ (rotations along with a few other transformations fall into this category). Therefore any of these transformations can be applied to $\mat{W}$ without the marginal likelihood changing. We can see this by setting $\mat{W}$ in the likelihood to $\mat{W}^\prime\mat{R}$:
+\begin{align*}
+	\mathcal{L}(\mat{W}) &= -\sum_{i=1}^N\log\big(\mathcal{N}(y_i|0,(\mat{W}^\prime\mat{R})(\mat{W}^\prime\mat{R})^T + \sigma^2\mat{I})\big) \\
+	&= -\sum_{i=1}^N\log\big(\mathcal{N}(y_i|0,\mat{W}^\prime\mat{R}\mat{R}^T\mat{W}^\prime^T + \sigma^2\mat{I})\big) \\
+	&= -\sum_{i=1}^N\log\big(\mathcal{N}(y_i|0,\mat{W}^\prime\mat{W}^\prime^T + \sigma^2\mat{I})\big) \\
+\end{align*}
 \end{document}
