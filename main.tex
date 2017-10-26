@@ -251,7 +251,19 @@ Adding a diagonal covariance matrix to the covariance function encodes a general
 \subsection{Theory}
 \question Specifiying a prior assumption over $\mat{X}$ allows us to encode our preference about the nature of the properties that $\mat{X}$ should have. This assumption also constrains the variable $\mat{W}$ as $\mat{W}$ and $\mat{X}$ have a simple relationship.
 \question We have encoded the assumption that all the dimensions in each variable of $\mat{X}$ are independent and identically distributed as we have used a Gaussian with an identity matrix as its covariance matrix.
-\question [TODO]
+\question We assume additive gaussian noise for a linear non-parametric Gaussian process and so our likelihood is as follows:
+\begin{align*}
+	p(y_i|x_i,\mat{W}) = \mathcal{N}(y_i|\mat{W}x_i, \sigma^2\mat{I})
+\end{align*}
+Our marginalisation is the product of two Gaussians which is itself another Gaussian.
+\begin{align*}
+	p(y_i|\mat{W}) &= \int p(y_i|x_i,\mat{W})p(x_i)\,dx \\
+	&= \int \mathcal{N}(y_i|\mat{W}x_i, \sigma^2\mat{I})\,\mathcal{N}(0,\mat{I})\,dx
+\end{align*}
+By replacing these Gaussians with their probability density function and combining we can form a single exponential, by then completing the square with regard to $x$ we can integrate $x$ out to form a new exponent for the marginal with mean $0$ and covariance $\mat{W}\mat{W}^T + \sigma^2\mat{I}$ thus making our marginal distribution:
+\begin{align*}
+	p(y_i|\mat{W}) = \mathcal{N}(y_i|0, \mat{W}\mat{W}^T + \sigma^2\mat{I})
+\end{align*}
 \subsubsection{Learning}
 \question [TODO]
 \subsubsection{Practical optimisation}
@@ -266,7 +278,7 @@ then the objective function is derived as follows using log rules:
 	&= -\sum_{i=1}^N\log\bigg(\frac{1}{\sqrt{2\pi\lvert\Sigma\rvert}}\bigg)+\log\bigg(\exp\Big(-\frac{1}{2}y_i^T\Sigma^{-1} y_i\Big)\bigg) \\
 	&= -\sum_{i=1}^N\log\frac{1}{(2\pi)^{\frac{D}{2}}\lvert\mat{W}\mat{W}^T+\sigma^2\mat{I}\rvert^{\frac{1}{2}}}+\log\bigg(\exp\Big(-\frac{1}{2}y_i^T(\mat{W}\mat{W}^T+\sigma^2\mat{I})^{-1} y_i\Big)\bigg) \\
 	&= -\log\big((2\pi)^D\lvert\mat{W}\mat{W}^T+\sigma^2\mat{I}\vert\big)^{-\frac{N}{2}} - \sum_{i=1}^N-\frac{1}{2}y_i^T(\mat{W}\mat{W}^T+\sigma^2\mat{I})^{-1} y_i \\
-	&= \frac{N}{2}\bigg(D\log2\pi + \log(\lvert\mat{W}\mat{W}^T+\sigma^2\mat{I}\vert)\bigg) + \frac{1}{2}\sum_{i=1}^Ny_i^T(\mat{W}\mat{W}^T+\sigma^2\mat{I})^{-1} y_i \\
+	&= \frac{N}{2}\bigg(D\log2\pi + \log(\lvert\mat{W}\mat{W}^T+\sigma^2\mat{I}\vert)\bigg) + \frac{1}{2}\sum_{i=1}^Ny_i^T(\mat{W}\mat{W}^T+\sigma^2\mat{I})^{-1} y_i
 \end{align*}
 From the fact that $\Tr(\mat{A}\mat{B}) = \Tr(\mat{B}\mat{A})$ and $\Tr(\mat{C} = \mat{c})$ for the dimensions in our sum we can evaluate it as follows:
 \begin{align*}
@@ -331,6 +343,6 @@ Our learned representation of $\mat{X}^\prime$ is very close to the correct shap
 \begin{align*}
 	\mathcal{L}(\mat{W}) &= -\sum_{i=1}^N\log\big(\mathcal{N}(y_i|0,(\mat{W}^\prime\mat{R})(\mat{W}^\prime\mat{R})^T + \sigma^2\mat{I})\big) \\
 	&= -\sum_{i=1}^N\log\big(\mathcal{N}(y_i|0,\mat{W}^\prime\mat{R}\mat{R}^T\mat{W}^\prime^T + \sigma^2\mat{I})\big) \\
-	&= -\sum_{i=1}^N\log\big(\mathcal{N}(y_i|0,\mat{W}^\prime\mat{W}^\prime^T + \sigma^2\mat{I})\big) \\
+	&= -\sum_{i=1}^N\log\big(\mathcal{N}(y_i|0,\mat{W}^\prime\mat{W}^\prime^T + \sigma^2\mat{I})\big)
 \end{align*}
 \end{document}
