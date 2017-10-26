@@ -148,7 +148,49 @@ There are two sources of uncertainty here, that associated with $f$ in the prior
 Leaving the $\theta$ on the left-hand side of the expression implies that we still have specific hyperparameters rather than undefined ones. It remains throughout the integral.
 \subsection{Practical}
 \subsubsection{Linear regression}
-\question [TODO]
+\question
+\begin{figure}[h!]
+	\centering
+	\begin{subfigure}[t]{0.4\linewidth}
+		\includegraphics[width=\linewidth]{1-posterior}
+		\caption{Posterior after 1 observation}
+		\label{fig:1-p}
+	\end{subfigure}
+	\begin{subfigure}[t]{0.4\linewidth}
+		\includegraphics[width=\linewidth]{1-samples}
+		\caption{Samples of $y$ from posterior after 1 observation}
+		\label{fig:1-s}
+	\end{subfigure}
+	\caption{Linear regression - 1 observation}
+\end{figure}
+\begin{figure}[h!]
+	\centering
+	\begin{subfigure}[t]{0.4\linewidth}
+		\includegraphics[width=\linewidth]{2-posterior}
+		\caption{Posterior after 2 observations}
+		\label{fig:2-p}
+	\end{subfigure}
+	\begin{subfigure}[t]{0.4\linewidth}
+		\includegraphics[width=\linewidth]{2-samples}
+		\caption{Samples of $y$ from posterior after 2 observations}
+		\label{fig:2-s}
+	\end{subfigure}
+	\caption{Linear regression - 2 observations}
+\end{figure}
+\begin{figure}[h!]
+	\centering
+	\begin{subfigure}[t]{0.4\linewidth}
+		\includegraphics[width=\linewidth]{15-posterior}
+		\caption{Posterior after 15 observations}
+		\label{fig:15-p}
+	\end{subfigure}
+	\begin{subfigure}[t]{0.4\linewidth}
+		\includegraphics[width=\linewidth]{15-samples}
+		\caption{Samples of $y$ from posterior after 15 observations}
+		\label{fig:15-s}
+	\end{subfigure}
+	\caption{Linear regression - 15 observations}
+\end{figure} \\
 \subsubsection{Non-parametric regression}
 \question [TODO]
 \question [TODO]
@@ -191,17 +233,17 @@ We also have the rules that $\partial(\mat{X}\mat{Y}) = (\partial\mat{X})\mat{Y}
 \end{align*}
 Using the earlier rules along with the rule that $\partial(\Tr(\mat{X}))=\Tr(\partial\mat{X})$ we can find the derivative of $A$:
 \begin{align*}
-	\frac{\partial A}{\partial\mat{W}} &= \Tr\bigg(\partial\Big((\mat{W}\mat{W}^T+\sigma^2\mat{I})^{-1}\mat{Y}\mat{Y}^T\Big)\bigg) \\
-	&= \Tr\Bigg(\partial\Big((\mat{W}\mat{W}^T+\sigma^2\mat{I})^{-1}\Big)\mat{Y}\mat{Y}^T + (\mat{W}\mat{W}^T+\sigma^2\mat{I})^{-1}\Big(\partial(\mat{Y}\mat{Y}^T)\Big)\bigg)
+	\frac{\partial A}{\partial\mat{W}} &= \Tr\bigg(\partial\Big(\mat{Y}(\mat{W}\mat{W}^T+\sigma^2\mat{I})^{-1}\mat{Y}^T\Big)\bigg) \\
+	&= \Tr\Bigg(\mat{Y}\mat{Y}^T\partial\Big((\mat{W}\mat{W}^T+\sigma^2\mat{I})^{-1}\Big) + (\mat{W}\mat{W}^T+\sigma^2\mat{I})^{-1}\Big(\partial(\mat{Y}^T\mat{Y})\Big)\bigg)
 \end{align*}
-As $\partial(\mat{Y}\mat{Y}^T) = 0$ and $\partial(\mat{X}^{-1}) = -\mat{X}^{-1}(\partial\mat{X})\mat{X}^{-1}$ we can reduce $A$ to:
+As $\partial(\mat{X}^{-1}) = -\mat{X}^{-1}(\partial\mat{X})\mat{X}^{-1}$ we can reduce $A$ to:
 \begin{align*}
-	\frac{\partial A}{\partial\mat{W}} &= \Tr\Bigg(\partial\Big((\mat{W}\mat{W}^T+\sigma^2\mat{I})^{-1}\Big)\mat{Y}\mat{Y}^T\Bigg) \\
-	\frac{\partial B}{\partial\mat{W}_{ij}} &= \Tr\Bigg(\Big(-(\mat{W}\mat{W}^T+\sigma^2\mat{I})^{-1}(\mat{J}^{ij}\mat{W}^T + \mat{W}\mat{J}^{ij}^T)(\mat{W}\mat{W}^T+\sigma^2\mat{I})\Big)\mat{Y}\mat{Y}^T\Bigg)
+	\frac{\partial A}{\partial\mat{W}} &= \Tr\Bigg(\mat{Y}\mat{Y}^T\partial\Big((\mat{W}\mat{W}^T+\sigma^2\mat{I})^{-1}\Big)\Bigg) \\
+	\frac{\partial B}{\partial\mat{W}_{ij}} &= \Tr\Bigg(\mat{Y}\mat{Y}^T\Big(-(\mat{W}\mat{W}^T+\sigma^2\mat{I})^{-1}(\mat{J}^{ij}\mat{W}^T + \mat{W}\mat{J}^{ij}^T)(\mat{W}\mat{W}^T+\sigma^2\mat{I})\Big)\Bigg)
 \end{align*}
 And so by combining our terms $A$ and $B$ we have the gradient for our log likelihood $\mathcal{L}$:
 \begin{align*}
-	\frac{\partial\mathcal{L}}{\partial\mat{W}_{ij}} =\ &\frac{N}{2}\Tr\Bigg(\Big(-(\mat{W}\mat{W}^T+\sigma^2\mat{I})^{-1}(\mat{J}^{ij}\mat{W}^T + \mat{W}\mat{J}^{ij}^T)(\mat{W}\mat{W}^T+\sigma^2\mat{I})\Big)\mat{Y}\mat{Y}^T\Bigg) \\
+	\frac{\partial\mathcal{L}}{\partial\mat{W}_{ij}} =\ &\frac{N}{2}\Tr\Bigg(\mat{Y}\Big(-(\mat{W}\mat{W}^T+\sigma^2\mat{I})^{-1}(\mat{J}^{ij}\mat{W}^T + \mat{W}\mat{J}^{ij}^T)(\mat{W}\mat{W}^T+\sigma^2\mat{I})\Big)\mat{Y}^T\Bigg) \\
 	&+ \frac{N}{2}\Tr\Big((\mat{W}\mat{W}^T+\sigma^2\mat{I})^{-1}(\mat{J}^{ij}\mat{W}^T + \mat{W}\mat{J}^{ij}^T)\Big)
 \end{align*}
 \subsubsection{Non-parametric}
