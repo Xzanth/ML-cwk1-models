@@ -220,9 +220,29 @@ Leaving the $\theta$ on the left-hand side of the expression implies that we sti
 	\caption{GP-prior samples}
 \end{figure}
 \question [WRITE ABOUT Q14]
+\begin{figure}[H]
+	\centering
+	\includegraphics[width=0.4\linewidth]{samples}
+	\label{fig:samples}
+	\caption{Predictive posterior samples}
+\end{figure}
+\begin{figure}[H]
+	\centering
+	\begin{subfigure}[t]{0.4\linewidth}
+		\includegraphics[width=\linewidth]{variance}
+		\caption{Just kernel co-variance matrix}
+		\label{fig:variance}
+	\end{subfigure}
+	\begin{subfigure}[t]{0.4\linewidth}
+		\includegraphics[width=\linewidth]{variancewithdiag}
+		\caption{With diagonal co-variance matrix}
+		\label{fig:variancewithdiag}
+	\end{subfigure}
+	\caption{Predictive mean and variances}
+\end{figure}
 \section{The posterior}
 \subsection{Theory}
-\question Specifiying a prior assumption over \mat{X} allows us to encode our preference about the nature of the properties that \mat{X} should have. This assumption also constrains the variable \mat{W} as \mat{W} and \mat{X} have a simple relationship.
+\question Specifiying a prior assumption over $\mat{X}$ allows us to encode our preference about the nature of the properties that $\mat{X}$ should have. This assumption also constrains the variable $\mat{W}$ as $\mat{W}$ and $\mat{X}$ have a simple relationship.
 \question We have encoded the assumption that all the dimensions in each variable of $\mat{X}$ are independent and identically distributed as we have used a Gaussian with an identity matrix as its covariance matrix.
 \question [TODO]
 \subsubsection{Learning}
