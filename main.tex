@@ -24,6 +24,7 @@
 \newcommand{\mat}[1]{\textbf{\textit{#1}}}
 \DeclareMathOperator{\Tr}{Tr}
 \DeclareMathOperator{\argmin}{arg\,min}
+\DeclareMathOperator{\argmax}{arg\,max}
 
 \title{Coursework 1 - Modelling}
 
@@ -265,7 +266,11 @@ By replacing these Gaussians with their probability density function and combini
 	p(y_i|\mat{W}) = \mathcal{N}(y_i|0, \mat{W}\mat{W}^T + \sigma^2\mat{I})
 \end{align*}
 \subsubsection{Learning}
-\question [TODO]
+\question \emph{1.} The MAP estimate equals the mode of the posterior distribution while ML simply finds the parameters that maxmimise the likelihood. ML can be seen as a MAP that simply assumes a uniform prior distribution, or MAP can be seen as ML that employs a modified optimization objective by regularizing with the prior.
+
+\emph{2.} As we observe more data the prior becomes less important relatively and the MAP estimate tends towards the ML estimate.
+
+\emph{3.} We can ignore the denominator in Eq. 8 because the integral is with respect to $\mat{W}$ it is constant with respect to $\mat{W}$ and so has no bearing on the $\argmax_\mat{W}$.
 \subsubsection{Practical optimisation}
 \question \emph{1.} We have from Question 17 that:
 \begin{align*}
