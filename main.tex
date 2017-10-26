@@ -114,7 +114,7 @@ $$
 	p(f|\mat{X},\bm{\theta}) = \mathcal{N}(0, k(\mat{X},\mat{X}))
 $$
 The covariance function $k$ allows us to set constraints from our assumptions about the mapping $f$. For example, our assumption about the functions smoothness that if $x_i$ and $x_j$ are similar then we expect $f_i$ and $f_j$ to be similar too, with certain kernel functions for $f$ we can only sample functions that have sufficient smoothness by ensuring that constraint.
-\question [TODO]
+\question Gaussian processes encode all possible functions for which inferring a posterior distribution from the data is tractable.
 \question
 \begin{align*}
 	p(\mat{Y},\mat{X},f,\bm{\theta}) = p(\mat{Y}|f)p(f|\mat{X},\bm{\theta})p(\mat{X})p(\bm{\theta})
