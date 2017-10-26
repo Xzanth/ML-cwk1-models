@@ -317,7 +317,17 @@ And so by combining our terms $A$ and $B$ we have the gradient for our log likel
 	&+ \frac{N}{2}\Tr\Big((\mat{W}\mat{W}^T+\sigma^2\mat{I})^{-1}(\mat{J}^{ij}\mat{W}^T + \mat{W}\mat{J}^{ij}^T)\Big)
 \end{align*}
 \subsubsection{Non-parametric}
-\question [TODO]
+\question Our marginalisation over $f$ rather than $\mat{X}$ is clearly a step shorter and captures uncertainty in both $\theta$ and $\mat{X}$.
+\begin{center}
+\begin{tikzpicture}
+	\node[obs] (Y) {$\mat{Y}$}; %
+	\node[latent, left=of Y] (f) {$f$} ; %
+	\node[latent, left=of f, yshift=0.5cm] (X) {$\mat{X}$} ; %
+	\node[latent, left=of f, yshift=-0.5cm] (theta) {$\bm{\theta}$} ; %
+	\edge {X,theta} {f}; %
+	\edge {f} {Y}; %
+\end{tikzpicture}
+\end{center}
 \subsection{Practical}
 \subsubsection{Linear representation learning}
 \question We minimised the objective function to get our maximum likelihood estimate for $\mat{W}$
