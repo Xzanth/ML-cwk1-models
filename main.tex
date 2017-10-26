@@ -152,14 +152,20 @@ Leaving the $\theta$ on the left-hand side of the expression implies that we sti
 \question [WRITE ABOUT Q12]
 \begin{figure}[H]
 	\centering
+	\includegraphics[width=0.4\linewidth]{prior}
+	\caption{Prior for linear regression}
+	\label{fig:prior}
+\end{figure}
+\begin{figure}[H]
+	\centering
 	\begin{subfigure}[t]{0.4\linewidth}
 		\includegraphics[width=\linewidth]{1-posterior}
-		\caption{Posterior after 1 observation}
+		\caption{Posterior}
 		\label{fig:1-p}
 	\end{subfigure}
 	\begin{subfigure}[t]{0.4\linewidth}
 		\includegraphics[width=\linewidth]{1-samples}
-		\caption{Samples of $y$ from posterior after 1 observation}
+		\caption{Samples of $y$ from posterior}
 		\label{fig:1-s}
 	\end{subfigure}
 	\caption{Linear regression - 1 observation}
@@ -168,12 +174,12 @@ Leaving the $\theta$ on the left-hand side of the expression implies that we sti
 	\centering
 	\begin{subfigure}[t]{0.4\linewidth}
 		\includegraphics[width=\linewidth]{2-posterior}
-		\caption{Posterior after 2 observations}
+		\caption{Posterior}
 		\label{fig:2-p}
 	\end{subfigure}
 	\begin{subfigure}[t]{0.4\linewidth}
 		\includegraphics[width=\linewidth]{2-samples}
-		\caption{Samples of $y$ from posterior after 2 observations}
+		\caption{Samples of $y$ from posterior}
 		\label{fig:2-s}
 	\end{subfigure}
 	\caption{Linear regression - 2 observations}
@@ -182,12 +188,12 @@ Leaving the $\theta$ on the left-hand side of the expression implies that we sti
 	\centering
 	\begin{subfigure}[t]{0.4\linewidth}
 		\includegraphics[width=\linewidth]{15-posterior}
-		\caption{Posterior after 15 observations}
+		\caption{Posterior}
 		\label{fig:15-p}
 	\end{subfigure}
 	\begin{subfigure}[t]{0.4\linewidth}
 		\includegraphics[width=\linewidth]{15-samples}
-		\caption{Samples of $y$ from posterior after 15 observations}
+		\caption{Samples of $y$ from posterior}
 		\label{fig:15-s}
 	\end{subfigure}
 	\caption{Linear regression - 15 observations}
@@ -280,7 +286,7 @@ To find the representation for $\mat{X}^\prime$ we must know the reverse of the 
 	\mat{X}^\prime &= \mat{Y}\mat{W}^\prime(\mat{W}^\prime^T\mat{W}^\prime)^{-1}
 \end{align*}
 And then use minimization of our objective function using the non-linear conjugate gradient method to find $\mat{X}^\prime$.
-\begin{figure}[h!]
+\begin{figure}[H]
 	\centering
 	\begin{subfigure}[t]{0.4\linewidth}
 		\includegraphics[width=\linewidth]{oldX}
@@ -293,7 +299,7 @@ And then use minimization of our objective function using the non-linear conjuga
 		\label{fig:newX}
 	\end{subfigure}
 	\caption{Representation Learning of $\mat{X}^\prime$}
-\end{figure} \\
+\end{figure}
 Our learned representation of $\mat{X}^\prime$ is very close to the correct shape only rotated slightly, this is because the marginal likelihood we are maximising is invariant to any matrix transformation whose inverse is its own transposition i.e. any matrix for which $\mat{R}\mat{R}^T = \mat{I}$ (rotations along with a few other transformations fall into this category). Therefore any of these transformations can be applied to $\mat{W}$ without the marginal likelihood changing. We can see this by setting $\mat{W}$ in the likelihood to $\mat{W}^\prime\mat{R}$:
 \begin{align*}
 	\mathcal{L}(\mat{W}) &= -\sum_{i=1}^N\log\big(\mathcal{N}(y_i|0,(\mat{W}^\prime\mat{R})(\mat{W}^\prime\mat{R})^T + \sigma^2\mat{I})\big) \\
