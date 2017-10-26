@@ -44,13 +44,7 @@
 
 \section{The prior}
 \subsection{Theory}
-\question \emph{1.} As the instances of $y$ are noisy observations of the underlying process and we do not know anything about this uncertainty we can assume it is the sum of independent and identically distributed errors. The Central Limit Theorem states the distribution of the sum of a large enough number of independent, identically distributed variables will be approximately normally distributed. From this we can say that our model of $y$ has the following form:
-\begin{align*}
-	y & = f(x) + \epsilon \\
-	\text{where:~}
-	\epsilon & \sim \mathcal{N}(0, \mat{I})
-\end{align*}
-And so from this we have the likelihood of each $y_i$ as a Gaussian distribution with mean $f(x_i)$.\\
+\question \emph{1.} Choosing a gaussian is a sensible thing to do because it makes calculation much easier, Gaussians are quite easily multiplied and integrated which are things you often have to do in machine learning contexts e.g. multiplying to compute a joint distribution or integrating to marginalise out a variable. Choosing a Gaussian likelihood also fits with our model because we often assume errors observation errors to be independent and identically distributed which due to the Central Limit Theorem (which states the distribution of the sum of a large enough number of independent, identically distributed variables will be approximately normally distributed) means our model ends up being a Gaussian.
 
 \emph{2.} Choosing a spherical covariance matrix for the likelihood means that we are assuming the different dimensions of $y_i$ to be independent and identically distributed. As they are independent they do not covary with each other and so the covariance matrix is diagonal. As they are identically distributed they all have the same variance. Therefore the covariance matrix is spherical.
 \question
@@ -59,11 +53,10 @@ And so from this we have the likelihood of each $y_i$ as a Gaussian distribution
 	&= p(y_N|y_{N-1},\ldots,y_1,f,\mat{X})p(y_{N-1}|y_{N-2},\ldots,y_1,f,\mat{X})\ldots p(y_1|f,\mat{X}) \\
 \end{align*}
 \subsubsection{Linear regression}
-\question
+\question We assume that the data is independent and so the joint probability is a product.
 \begin{align*}
 	p(\mat{Y}|\mat{X},\mat{W}) &= \prod_{i}^Np(\mat{y}_i|\mat{x}_i,\mat{W}) \\
 	&= \prod_{i}^N\mathcal{N}(\mat{W}\mat{x}_i,\sigma^2\mat{I}) \\
-	&= \mathcal{N}(\mat{W}\mat{X},\sigma^2\mat{I})
 \end{align*}
 \question A conjugate prior is one that is conjugate to the posterior, meaning they are in the same family of distributions. A conjugate prior is useful as it gives a closed-form solution for the posterior. If we didn't choose a conjugate prior then numerical integration may be necessary to calculate the posterior which may mean the solution is potentially intractable. The conjugate prior for a Gaussian posterior is a Gaussian.
 \question Just as encoding the prefrence in a $L_2$ norm is equivalent to having a Gaussian prior, encoding the preference using a $L_1$ norm is equivalent to having a Laplace prior. This is because the Laplace distribution estimates median rather than the mean estimated by the Guassian and median minimises the $L_1$ norm and mean the $L_2$
@@ -142,14 +135,16 @@ The covariance function $k$ allows us to set constraints from our assumptions ab
 	\item $f$ is conditionally dependent on both $\mat{X}$ and $\bm{\theta}$
 	\item $\mat{Y}$ is conditionally dependent on $f$ and conditionally independent of $\mat{X}$ and $\bm{\theta}$
 \end{itemize}
-\question [UNSURE] This marginalization shows the likelihood of the data we have observed over the function we are testing which is constrained constrained by the prior.
+\question [UNSURE] This marginalization shows the likelihood of the data we have observed over the function we are testing which is constrained by the prior.
 
 There are two sources of uncertainty here, that associated with $f$ in the prior and that associated with $\epsilon$ in the likelihood, these are independent and as such are merged by simply adding to form the covariance of the marginal likelihood Gaussian.
 
 Leaving the $\theta$ on the left-hand side of the expression implies that we still have specific hyperparameters rather than undefined ones. It remains throughout the integral.
 \subsection{Practical}
 \subsubsection{Linear regression}
-\question [WRITE ABOUT Q12]
+\question Figure \ref{fig:prior} represents our prior assumption over $\mat{W}$. Our prior assumption states that the distribution over $\mat{W}$ be a Gaussian with a mean of $0$ and the identity matrix as its covariance. As discussed in question 3 the likelihood is a Gaussian, therefore choosing a Gaussian prior allows us to obtain a Gaussian posterior.
+
+In Figures \ref{fig:1-s}, \ref{fig:2-s} and \ref{fig:15-s} we can see how our assumptions about $\mat{W}$ change as we observe more data. Making the distribution over $\mat{W}$ a posterior or our updated belief. These are paired with samples from our posterior that allow us to plot some sample functions. It is observable that the more data we observe, the more the uncertainty in our posterior reduces giving us a posterior that approaches the values of the actual parameters $\mat{W}$ displayed as a white cross, and increasingly accurate sample functions.
 \begin{figure}[H]
 	\centering
 	\includegraphics[width=0.3\linewidth]{prior}
@@ -169,6 +164,7 @@ Leaving the $\theta$ on the left-hand side of the expression implies that we sti
 		\label{fig:1-s}
 	\end{subfigure}
 	\caption{Linear regression - 1 observation}
+	\label{fig:1-s}
 \end{figure}
 \begin{figure}[H]
 	\centering
@@ -183,6 +179,7 @@ Leaving the $\theta$ on the left-hand side of the expression implies that we sti
 		\label{fig:2-s}
 	\end{subfigure}
 	\caption{Linear regression - 2 observations}
+	\label{fig:2-s}
 \end{figure}
 \begin{figure}[H]
 	\centering
@@ -197,9 +194,14 @@ Leaving the $\theta$ on the left-hand side of the expression implies that we sti
 		\label{fig:15-s}
 	\end{subfigure}
 	\caption{Linear regression - 15 observations}
+	\label{fig:15-s}
 \end{figure} \\
 \subsubsection{Non-parametric regression}
-\question [WRITE ABOUT Q13]
+\question The covariance function, or kernel, encodes all the assumptions about the form of function we are modelling, and often represents some form of “distance” or similarity between the data.
+
+Figure \ref{fig:GP-p} shown represent samples from our GP-Prior created with a squared exponential covariance function. The length scale allows us to put constraints on how smooth the functions are. Small lengthscale values characterize functions that change quickly, whereas larger values characterize functions that change slowly. The three figures represent our GP-prior with different lengthscale values. We can observe that the high lengthscale value in Figure \ref{fig:10.l} gives us smooth functions while the lower lengthscale value in \ref{fig:0.1l} gives us a functions with rapidly changing values.
+
+The lengthscale therefore encodes our assumption of how smooth we think the underlying function will be. 
 \begin{figure}[H]
 	\centering
 	\begin{subfigure}[t]{0.3\linewidth}
@@ -218,13 +220,18 @@ Leaving the $\theta$ on the left-hand side of the expression implies that we sti
 		\label{fig:10.l}
 	\end{subfigure}
 	\caption{GP-prior samples}
+	\label{fig:GP-p}
 \end{figure}
-\question [WRITE ABOUT Q14]
+\question Figure \ref{fig:samples} shows the predictive posterior samples, or our updated prior after having observed data. While our prior showed functions that corresponded to our general prior assumptions, the posterior shows only the set of constrained functions that pass by the observed data points.
+
+As the figure shows, this behavior is not desirable as is can lead to overfitting. Considering that there can be noise in the data, such as in Figure \ref{fig:samples}, overfitting will not enable us to find the underlying function, in this case a sine wave. We can observe that our uncertainty drops as we observe data but rises again as we get away from the observed data. This is due to our squared exponential covariance matrix that encodes an assumption in the form of  the functions such that if two points $x_1$ and $x_2$ are close together, we expect their corresponding $y$ values to be close too. Therefore the further away a new $x$ value is from the $x$ values of observed data points, the more uncertain we are about its $y$ value.
+
+Adding a diagonal covariance matrix to the covariance function encodes uncertainty in our model. As we can see in Figure \ref{fig:variancewithdiag}, there is a certain degree of error encoded in each data point observed, meaning that the underlying function does not pass through every observed data point, allowing us to obtain a smoother line that resembles far more the underlying sine function.
 \begin{figure}[H]
 	\centering
 	\includegraphics[width=0.4\linewidth]{samples}
-	\label{fig:samples}
 	\caption{Predictive posterior samples}
+	\label{fig:samples}
 \end{figure}
 \begin{figure}[H]
 	\centering
@@ -239,6 +246,7 @@ Leaving the $\theta$ on the left-hand side of the expression implies that we sti
 		\label{fig:variancewithdiag}
 	\end{subfigure}
 	\caption{Predictive mean and variances}
+	\label{fig:muandcov}
 \end{figure}
 \section{The posterior}
 \subsection{Theory}
