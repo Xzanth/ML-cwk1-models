@@ -360,4 +360,14 @@ Our learned representation of $\mat{X}^\prime$ is very close to the correct shap
 	&= -\sum_{i=1}^N\log\big(\mathcal{N}(y_i|0,\mat{W}^\prime\mat{R}\mat{R}^T\mat{W}^\prime^T + \sigma^2\mat{I})\big) \\
 	&= -\sum_{i=1}^N\log\big(\mathcal{N}(y_i|0,\mat{W}^\prime\mat{W}^\prime^T + \sigma^2\mat{I})\big)
 \end{align*}
+\section{The Evidence}
+\subsection{Theory}
+\subsubsection{Data}
+\subsubsection{Models}
+\question This assumption implies that all data sets are equally likely assigning them uniform probability $\frac{1}{512}$. This is the most simple model in the sense that it has no free parameters but is the most complex model in the sense that it assigns lots of different models the same probability and therefore can't assign much probability mass to simple data-sets.
+\question $M_3$ is the most complex and most flexible model, it is analogous to full logistic regression having a bias parameter $\theta^3$ and parameters for both dimensions of $x$. $M_3$ can be made to realize the other models by setting $\theta^3$ to zero for $M_2$ or both $\theta^3$ and $\theta^2$ to zero for $M_1$. Because of this complexity and flexibility it assigns less probability mass to a larger set of data sets and so if the data sets to align with the simpler models will lose out to them.
+
+$M_2$ is the next most complex model and will assign more probability mass to all data sets that aren't very unequal or whose decision boundary separating $y = 1$ and $y = -1$ is offset from the origin as both these cases would be better modeled with the bias parameter in $M_3$.
+
+$M_1$ is the simplest of these models bar the uniform one and so assigns more probability mass to the set of data sets it can describe but can describe less data sets, as without a parameter for $x_2$ it can only describe data sets for which the decision boundary is a function of $x_1$.
 \end{document}
