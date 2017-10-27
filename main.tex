@@ -17,11 +17,15 @@
 \usepackage{subcaption}
 \usepackage{float}
 \usetikzlibrary{bayesnet}
+\usetikzlibrary{shapes.misc}
 \graphicspath{ {images/} }
 
 \newcounter{question}
 \newcommand{\question}{\stepcounter{question}\paragraph{Question \thequestion}}
 \newcommand{\mat}[1]{\textbf{\textit{#1}}}
+
+\tikzset{cross/.style={cross out, draw=black, minimum size=2*(#1-\pgflinewidth), inner sep=0pt, outer sep=0pt}, cross/.default={1pt}}
+
 \DeclareMathOperator{\Tr}{Tr}
 \DeclareMathOperator{\argmin}{arg\,min}
 \DeclareMathOperator{\argmax}{arg\,max}
@@ -247,7 +251,7 @@ Adding a diagonal covariance matrix to the covariance function encodes a general
 \section{The posterior}
 \subsection{Theory}
 \question Specifiying a prior assumption over $\mat{X}$ allows us to encode our preference about the nature of the properties that $\mat{X}$ should have. This assumption also constrains the variable $\mat{W}$ as $\mat{W}$ and $\mat{X}$ have a simple relationship.
-\question We have encoded the assumption that all the dimensions in each variable of $\mat{X}$ are independent and identically distributed as we have used a Gaussian with an identity matrix as its covariance matrix.
+\question We have encoded our preference that the Gaussian have zero mean and our assumption that all the dimensions in each variable of $\mat{X}$ are independent and identically distributed as we have used a Gaussian with an identity matrix as its covariance matrix.
 \question We assume additive gaussian noise for a linear non-parametric Gaussian process and so our likelihood is as follows:
 \begin{align*}
 	p(y_i|x_i,\mat{W}) = \mathcal{N}(y_i|\mat{W}x_i, \sigma^2\mat{I})
@@ -265,7 +269,7 @@ By replacing these Gaussians with their probability density function and combini
 
 \emph{2.} As we observe more data the prior becomes less important relatively and the MAP estimate tends towards the ML estimate.
 
-\emph{3.} We can ignore the denominator in Eq. 8 because the integral is with respect to $\mat{W}$ it is constant with respect to $\mat{W}$ and so has no bearing on the $\argmax_\mat{W}$.
+\emph{3.} We can ignore the denominator in Eq. 8 because the integral is constant with respect to $\mat{W}$ and so has no bearing on the $\argmax_\mat{W}$.
 \question \emph{1.} We have from Question 17 that:
 \begin{align*}
 	p(\mat{Y}|\mat{W}) = \prod_{i=1}^N\mathcal{N}(y_i|0,\mat{W}\mat{W}^T + \sigma^2\mat{I})
@@ -362,4 +366,88 @@ $M_2$ is the next most complex model and will assign more probability mass than 
 $M_1$ is the simplest of these models bar the uniform one and so assigns more probability mass to the set of data sets it can describe but can describe less data sets, as without a parameter for $x_2$ it can only describe data sets for which the decision boundary is a function of $x_1$.
 \question The prior $p(\theta|M_i) = \mathcal{N}(0, 10^3\mat{I})$ implies that all the dimensions are independent as it's a diagonal covariance matrix and the high standard deviation affects the model in that it leads to sharp linear boundaries in the data space as the parameters can be very wide.
 \subsection{Practical}
+\question For all the models the evidence for the whole of $\mathcal{D}$ sums to $1$ this is because they are all probability density functions.
+\question Our plots of the evidence in Figure \ref{fig:ds} show that for the vast majority of the data set the model with the highest evidence is $M_0$ as most datasets cannot by decided by a linear decision boundary. Within the subset of data sets pictured in Figure \ref{fig:zoomedds} however, the other models outperform $M_0$ considerably, these are the datasets do follow a linear boundary. We can see that $M_3$ has a few datasets it is extremely adept at identifying, but overall just has a general trend of low evidence over a large period and is generally beaten by models $M_2$ and $M_1$ where $\mathcal{D} < 25$ as these datasets are probably bounded by lines crossing the origin which don't require a third bias parameter to formulate.
+\begin{figure}[H]
+	\centering
+	\begin{subfigure}[t]{0.4\linewidth}
+		\includegraphics[width=\linewidth]{wholeds}
+		\caption{Whole data set}
+		\label{fig:wholeds}
+	\end{subfigure}
+	\begin{subfigure}[t]{0.4\linewidth}
+		\includegraphics[width=\linewidth]{zoomedds}
+		\caption{Subset data set}
+		\label{fig:zoomedds}
+	\end{subfigure}
+	\caption{Plot of evidence for each model}
+	\label{fig:ds}
+\end{figure}
+\question The maximum and minimum data sets for $M_0$ are exactly the same as $M_0$ has uniform probability distribution so every data set is just as probable as the other ones. The minimum probability data sets for $M_1$, $M_2$ and $M_3$ are all datasets with boundaries that are not possible to express linearly as all our models are linear.
+
+The maximum probability dataset for $M_1$ has a horizontal decision boundary as that is the only boundary $M_1$ can express with its single parameter. The maximum probablity dataset for $M_2$ has a sloped decision boundary but still centred around the origin as that is the boundary $M_2$ is most adept at expressing. The dataset which is most probable for $M_3$ is all one particular value as with its third bias parameter it can push the boundary all the way off the grid.
+\begin{table}[H]
+	\begin{center}
+	\begin{tabular}{ c c c c}
+		\begin{tabular}{ c c c}
+			\tikz\draw[red,fill=red] (0,0) circle (.5ex); & \tikz\draw[red,fill=red] (0,0) circle (.5ex); & \tikz\draw[red,fill=red] (0,0) circle (.5ex); \\
+			\tikz\draw[red,fill=red] (0,0) circle (.5ex); & \tikz\draw[red,fill=red] (0,0) circle (.5ex); & \tikz\draw[red,fill=red] (0,0) circle (.5ex); \\
+			\tikz\draw[red,fill=red] (0,0) circle (.5ex); & \tikz\draw[red,fill=red] (0,0) circle (.5ex); & \tikz\draw[red,fill=red] (0,0) circle (.5ex);
+		\end{tabular} &
+		\begin{tabular}{ c c c}
+			\tikz\draw (0,0) node[cross=0.5ex] {}; & \tikz\draw (0,0) node[cross=0.5ex] {}; & \tikz\draw (0,0) node[cross=0.5ex] {}; \\
+			\tikz\draw[red,fill=red] (0,0) circle (.5ex); & \tikz\draw[red,fill=red] (0,0) circle (.5ex); & \tikz\draw[red,fill=red] (0,0) circle (.5ex); \\
+			\tikz\draw[red,fill=red] (0,0) circle (.5ex); & \tikz\draw[red,fill=red] (0,0) circle (.5ex); & \tikz\draw[red,fill=red] (0,0) circle (.5ex);
+		\end{tabular} &
+		\begin{tabular}{ c c c}
+			\tikz\draw[red,fill=red] (0,0) circle (.5ex); & \tikz\draw[red,fill=red] (0,0) circle (.5ex); & \tikz\draw[red,fill=red] (0,0) circle (.5ex); \\
+			\tikz\draw (0,0) node[cross=0.5ex] {}; & \tikz\draw[red,fill=red] (0,0) circle (.5ex); & \tikz\draw[red,fill=red] (0,0) circle (.5ex); \\
+			\tikz\draw (0,0) node[cross=0.5ex] {}; & \tikz\draw (0,0) node[cross=0.5ex] {}; & \tikz\draw (0,0) node[cross=0.5ex] {};
+		\end{tabular} &
+		\begin{tabular}{ c c c}
+			\tikz\draw (0,0) node[cross=0.5ex] {}; & \tikz\draw (0,0) node[cross=0.5ex] {}; & \tikz\draw (0,0) node[cross=0.5ex] {}; \\
+			\tikz\draw (0,0) node[cross=0.5ex] {}; & \tikz\draw (0,0) node[cross=0.5ex] {}; & \tikz\draw (0,0) node[cross=0.5ex] {}; \\
+			\tikz\draw (0,0) node[cross=0.5ex] {}; & \tikz\draw (0,0) node[cross=0.5ex] {}; & \tikz\draw (0,0) node[cross=0.5ex] {};
+		\end{tabular} \\
+		Max $p(\mathcal{D})$ $M_0$ &
+		Max $p(\mathcal{D})$ $M_1$ &
+		Max $p(\mathcal{D})$ $M_2$ &
+		Max $p(\mathcal{D})$ $M_3$ \\
+		\\
+		\begin{tabular}{ c c c}
+			\tikz\draw[red,fill=red] (0,0) circle (.5ex); & \tikz\draw[red,fill=red] (0,0) circle (.5ex); & \tikz\draw[red,fill=red] (0,0) circle (.5ex); \\
+			\tikz\draw[red,fill=red] (0,0) circle (.5ex); & \tikz\draw[red,fill=red] (0,0) circle (.5ex); & \tikz\draw[red,fill=red] (0,0) circle (.5ex); \\
+			\tikz\draw[red,fill=red] (0,0) circle (.5ex); & \tikz\draw[red,fill=red] (0,0) circle (.5ex); & \tikz\draw[red,fill=red] (0,0) circle (.5ex);
+		\end{tabular} &
+		\begin{tabular}{ c c c}
+			\tikz\draw (0,0) node[cross=0.5ex] {}; & \tikz\draw[red,fill=red] (0,0) circle (.5ex); & \tikz\draw (0,0) node[cross=0.5ex] {}; \\
+			\tikz\draw[red,fill=red] (0,0) circle (.5ex); & \tikz\draw[red,fill=red] (0,0) circle (.5ex); & \tikz\draw[red,fill=red] (0,0) circle (.5ex); \\
+			\tikz\draw[red,fill=red] (0,0) circle (.5ex); & \tikz\draw (0,0) node[cross=0.5ex] {}; & \tikz\draw (0,0) node[cross=0.5ex] {};
+		\end{tabular} &
+		\begin{tabular}{ c c c}
+			\tikz\draw[red,fill=red] (0,0) circle (.5ex); & \tikz\draw[red,fill=red] (0,0) circle (.5ex); & \tikz\draw (0,0) node[cross=0.5ex] {}; \\
+			\tikz\draw (0,0) node[cross=0.5ex] {}; & \tikz\draw[red,fill=red] (0,0) circle (.5ex); & \tikz\draw[red,fill=red] (0,0) circle (.5ex); \\
+			\tikz\draw[red,fill=red] (0,0) circle (.5ex); & \tikz\draw (0,0) node[cross=0.5ex] {}; & \tikz\draw[red,fill=red] (0,0) circle (.5ex);
+		\end{tabular} &
+		\begin{tabular}{ c c c}
+			\tikz\draw[red,fill=red] (0,0) circle (.5ex); & \tikz\draw (0,0) node[cross=0.5ex] {}; & \tikz\draw (0,0) node[cross=0.5ex] {}; \\
+			\tikz\draw[red,fill=red] (0,0) circle (.5ex); & \tikz\draw (0,0) node[cross=0.5ex] {}; & \tikz\draw (0,0) node[cross=0.5ex] {}; \\
+			\tikz\draw (0,0) node[cross=0.5ex] {}; & \tikz\draw[red,fill=red] (0,0) circle (.5ex); & \tikz\draw[red,fill=red] (0,0) circle (.5ex);
+		\end{tabular} \\
+		Min $p(\mathcal{D})$ $M_0$ &
+		Min $p(\mathcal{D})$ $M_1$ &
+		Min $p(\mathcal{D})$ $M_2$ &
+		Min $p(\mathcal{D})$ $M_3$ \\
+		\\
+	\end{tabular}
+	\caption{Elements of $\matcal{D}$ that maximise and minimise probability mass for each model}
+	\label{tab:1}
+	\end{center}
+\end{table}
+\stepcounter{question}
+\stepcounter{question}
+\question The assignment was made of three parts containing both theoretical and practical questions: supervised learning or parametric regression (linear regression), unsupervised learning or non-parametric regression, and model selection; with an emphasis on the role of priors, assumptions, preferences and uncertainty.
+The assignment was presented in a way such that we were given the necessary theoretical knowledge throughout the assignment, only allowing us to complete it step by step. The lectures material mainly being theoretical forced us to grasp a general idea of machine learning concepts in order to implement these with actual data in the practical exercises. The two first parts of the assignment were covered in lectures, however the third section was not, forcing us to take a to apply what we learned in order to solve a new problem, model selection.
+
+It appears the aim of this assignment has been to lead us a step further into the practice of machine learning, taking us from the material covered in lectures, generally theoretical, to a mix of theoretical questions and applied practical exercises. This enabled us to extend our understanding of the importance of integrating our beliefs in our observations in order to extract meaning from data. We were able to do this hands-on by actually encoding assumptions and uncertainty in our models, allowing us to learn from these models.
 \end{document}
