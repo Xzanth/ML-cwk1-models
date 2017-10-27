@@ -53,7 +53,6 @@
 	p(\mat{Y}|f,\mat{X}) &= p(y_1,\ldots,y_{N-1},y_N|f,\mat{X}) \\
 	&= p(y_N|y_{N-1},\ldots,y_1,f,\mat{X})p(y_{N-1}|y_{N-2},\ldots,y_1,f,\mat{X})\ldots p(y_1|f,\mat{X}) \\
 \end{align*}
-\subsubsection{Linear regression}
 \question We assume that the data is independent and so the joint probability is a product.
 \begin{align*}
 	p(\mat{Y}|\mat{X},\mat{W}) &= \prod_{i}^Np(\mat{y}_i|\mat{x}_i,\mat{W}) \\
@@ -104,7 +103,6 @@ Thus we have our posterior as a Guassian with our values for $\mathbf{\Sigma}$ a
 	p(\mat{W}|\mat{X},\mat{Y}) \propto\ &\exp\bigg(-\frac{1}{2}(\mat{W}-\mu)^T\Sigma^{-1}(\mat{W}-\mu)\bigg)\\
 	\propto\ &\mathcal{N}\bigg[\Big(\frac{1}{\sigma^2}\mat{X}^T\mat{Y}+\frac{1}{\tau^2}\mat{I}\Big)^{-1}\Big(\frac{1}{\sigma^2}\mat{X}^T\mat{Y} + \frac{1}{\tau^2}\mat{W}_0\Big),\Big(\frac{1}{\sigma^2}\mat{X}^T\mat{Y}+\frac{1}{\tau^2}\mat{I}\Big)^{-1}\bigg]
 \end{align*}
-\subsubsection{Non-parametric regression}
 \question Parametric models assume that the distribution the data comes from is based on a finite, fixed set of parameters and models future predictions based off these parameters, they capture everything there is to know about the data. Non-parametric models do not make such assumptions about the model structure and instead infer structure from the data, they have parameters but these are not fixed in advance and there can be an infinite set of parameters.
 
 Non-parametric models are more flexible and can represent a wider variety of data and will represent the data better if the assumptions made in the parametric model are incorrect but are less precise and accurate than parametric methods if the right assumptions are made.
@@ -141,7 +139,6 @@ There are two sources of uncertainty here, that associated with $f$ in the prior
 
 Leaving the $\theta$ on the left-hand side of the expression implies that we still have specific hyperparameters rather than undefined ones. It remains throughout the integral.
 \subsection{Practical}
-\subsubsection{Linear regression}
 \question Figure \ref{fig:prior} represents our prior assumption over $\mat{W}$. Our prior assumption states that the distribution over $\mat{W}$ is a Gaussian with a mean of $0$ and the identity matrix as its covariance. As discussed in question 3 the likelihood is a Gaussian, therefore choosing a Gaussian prior allows us to obtain a Gaussian posterior.
 
 In Figures \ref{fig:1-s}, \ref{fig:2-s} and \ref{fig:15-s} we can see how our assumptions about $\mat{W}$ change as we observe more data. Making the distribution over $\mat{W}$ a posterior or our updated belief. These are paired with samples from our posterior that allow us to plot some sample functions. It is clear that the more data we observe, the more the uncertainty in our posterior reduces, giving us a posterior that approaches the exact values of the actual parameters $\mat{W}$ (displayed as a white cross) along with increasingly accurate sample functions.
@@ -196,7 +193,6 @@ In Figures \ref{fig:1-s}, \ref{fig:2-s} and \ref{fig:15-s} we can see how our as
 	\caption{Linear regression - 15 observations}
 	\label{fig:15-s}
 \end{figure} \\
-\subsubsection{Non-parametric regression}
 \question The covariance function, or kernel, encodes all the assumptions about the form of functions we are modelling, and often represents some form of “distance” or similarity between the data.
 
 Figure \ref{fig:GP-p} shows samples from our GP-Prior created with a squared exponential covariance function. The length scale allows us to put constraints on how smooth the functions are. Small lengthscale values such as the one in Figure \ref{fig:0.1l} characterize functions that change quickly, whereas larger values such as the one in \ref{fig:10.l} characterize functions that change slowly.
@@ -265,13 +261,11 @@ By replacing these Gaussians with their probability density function and combini
 \begin{align*}
 	p(y_i|\mat{W}) = \mathcal{N}(y_i|0, \mat{W}\mat{W}^T + \sigma^2\mat{I})
 \end{align*}
-\subsubsection{Learning}
 \question \emph{1.} The MAP estimate equals the mode of the posterior distribution while ML simply finds the parameters that maxmimise the likelihood. ML can be seen as a MAP that simply assumes a uniform prior distribution, or MAP can be seen as ML that employs a modified optimization objective by regularizing with the prior.
 
 \emph{2.} As we observe more data the prior becomes less important relatively and the MAP estimate tends towards the ML estimate.
 
 \emph{3.} We can ignore the denominator in Eq. 8 because the integral is with respect to $\mat{W}$ it is constant with respect to $\mat{W}$ and so has no bearing on the $\argmax_\mat{W}$.
-\subsubsection{Practical optimisation}
 \question \emph{1.} We have from Question 17 that:
 \begin{align*}
 	p(\mat{Y}|\mat{W}) = \prod_{i=1}^N\mathcal{N}(y_i|0,\mat{W}\mat{W}^T + \sigma^2\mat{I})
@@ -316,7 +310,6 @@ And so by combining our terms $A$ and $B$ we have the gradient for our log likel
 	\frac{\partial\mathcal{L}}{\partial\mat{W}_{ij}} =\ &\frac{N}{2}\Tr\Bigg(\mat{Y}\Big(-(\mat{W}\mat{W}^T+\sigma^2\mat{I})^{-1}(\mat{J}^{ij}\mat{W}^T + \mat{W}\mat{J}^{ij}^T)(\mat{W}\mat{W}^T+\sigma^2\mat{I})\Big)\mat{Y}^T\Bigg) \\
 	&+ \frac{N}{2}\Tr\Big((\mat{W}\mat{W}^T+\sigma^2\mat{I})^{-1}(\mat{J}^{ij}\mat{W}^T + \mat{W}\mat{J}^{ij}^T)\Big)
 \end{align*}
-\subsubsection{Non-parametric}
 \question Our marginalisation over $f$ rather than $\mat{X}$ is clearly a step shorter and captures uncertainty in both $\theta$ and $\mat{X}$.
 \begin{center}
 \begin{tikzpicture}
@@ -329,7 +322,6 @@ And so by combining our terms $A$ and $B$ we have the gradient for our log likel
 \end{tikzpicture}
 \end{center}
 \subsection{Practical}
-\subsubsection{Linear representation learning}
 \question We minimised the objective function to get our maximum likelihood estimate for $\mat{W}$
 \begin{align*}
 	\mat{W}^\prime = \argmin_\mat{W} \mathcal{L}(\mat{W})
@@ -362,12 +354,12 @@ Our learned representation of $\mat{X}^\prime$ is very close to the correct shap
 \end{align*}
 \section{The Evidence}
 \subsection{Theory}
-\subsubsection{Data}
-\subsubsection{Models}
 \question This assumption implies that all data sets are equally likely assigning them uniform probability $\frac{1}{512}$. This is the most simple model in the sense that it has no free parameters but is the most complex model in the sense that it assigns lots of different models the same probability and therefore can't assign much probability mass to simple data-sets.
 \question $M_3$ is the most complex and most flexible model, it is analogous to full logistic regression having a bias parameter $\theta^3$ and parameters for both dimensions of $x$. $M_3$ can be made to realize the other models by setting $\theta^3$ to zero for $M_2$ or both $\theta^3$ and $\theta^2$ to zero for $M_1$. Because of this complexity and flexibility it assigns less probability mass to a larger set of data sets and so if the data sets to align with the simpler models will lose out to them.
 
-$M_2$ is the next most complex model and will assign more probability mass to all data sets that aren't very unequal or whose decision boundary separating $y = 1$ and $y = -1$ is offset from the origin as both these cases would be better modeled with the bias parameter in $M_3$.
+$M_2$ is the next most complex model and will assign more probability mass than $M_3$ to all data sets that aren't very unequal or whose decision boundary separating $y = 1$ and $y = -1$ is offset from the origin as both these cases would be better modeled with the bias parameter in $M_3$.
 
 $M_1$ is the simplest of these models bar the uniform one and so assigns more probability mass to the set of data sets it can describe but can describe less data sets, as without a parameter for $x_2$ it can only describe data sets for which the decision boundary is a function of $x_1$.
+\question The prior $p(\theta|M_i) = \mathcal{N}(0, 10^3\mat{I})$ implies that all the dimensions are independent as it's a diagonal covariance matrix and the high standard deviation affects the model in that it leads to sharp linear boundaries in the data space as the parameters can be very wide.
+\subsection{Practical}
 \end{document}
